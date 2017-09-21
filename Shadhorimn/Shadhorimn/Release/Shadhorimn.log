@@ -1,0 +1,23 @@
+﻿  AssetManager.cpp
+  Camera.cpp
+  Charger.cpp
+  Checkpoint.cpp
+  Creature.cpp
+  Drone.cpp
+  EndOfTheGame.cpp
+  Grunt.cpp
+  Gunner.cpp
+  InputHandler.cpp
+  main.cpp
+  Platform.cpp
+  PlayerCharacter.cpp
+  Projectile.cpp
+  RigidBody.cpp
+  Settings.cpp
+  SpriteAnimation.cpp
+  World.cpp
+  Generating code
+  All 1363 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Shadhorimn.vcxproj -> C:\Users\Ian\Documents\GitHub\shadhorimn\Shadhorimn\Release\Shadhorimn.exe
+  Shadhorimn.vcxproj -> C:\Users\Ian\Documents\GitHub\shadhorimn\Shadhorimn\Release\Shadhorimn.pdb (Full PDB)
