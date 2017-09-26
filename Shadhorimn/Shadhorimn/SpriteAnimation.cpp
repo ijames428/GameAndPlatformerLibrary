@@ -2,7 +2,7 @@ using namespace std;
 #include <iostream>
 #include "SpriteAnimation.h" 
 #include "AssetManager.h" 
-#include "Singleton.h" 
+#include "..\GameLibrary\Singleton.h"
 
 SpriteAnimation::SpriteAnimation(sf::RenderWindow *window, std::string file_path_and_name, int frame_width, int frame_height, int total_frames, int columns_count, int rows_count, float scale, sf::Color color) {
 	render_window = window;
@@ -19,7 +19,7 @@ SpriteAnimation::SpriteAnimation(sf::RenderWindow *window, std::string file_path
 	texture_rect = sf::IntRect(0, 0, sprite_frame_width, sprite_frame_height);
 
 	//texture.loadFromFile(file_path_and_name);
-	texture = Singleton<AssetManager>().Get()->GetTexture(file_path_and_name);
+	texture = GameLibrary::Singleton<AssetManager>().Get()->GetTexture(file_path_and_name);
 	//sprite = new sf::Sprite(Singleton<AssetManager>().Get()->GetTexture(file_path_and_name));
 	sprite = new sf::Sprite(*texture);
 	sprite->setScale(sprite_scale, sprite_scale);

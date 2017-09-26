@@ -2,6 +2,8 @@
 #define GUNNER_H
 
 using namespace std;
+#include "..\PlatformerLibrary\RigidBody.h"
+#include "..\GameLibrary\Singleton.h"
 #include <SFML/Graphics.hpp>
 #include "Creature.h"
 #include "PlayerCharacter.h"

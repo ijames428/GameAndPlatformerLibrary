@@ -2,7 +2,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Platform.h"
-#include "Singleton.h"
+#include "..\GameLibrary\Singleton.h"
 #include "World.h"
 #include "InputHandler.h"
 #include "PlayerCharacter.h"
@@ -99,12 +99,12 @@ int main()
 	float background_music_volume = 100.0f;
 	float combat_music_volume = 0.0f;
 
-	Singleton<Settings>::Get()->effects_volume = 10.0f;
-	Singleton<Settings>::Get()->music_volume = 50.0f;
+	GameLibrary::Singleton<Settings>::Get()->effects_volume = 10.0f;
+	GameLibrary::Singleton<Settings>::Get()->music_volume = 50.0f;
 
 	if (!background_music.openFromFile("Sound/background_music0.ogg"))
 		return -1;
-	combat_music.setVolume((float)background_music_volume * (Singleton<Settings>::Get()->music_volume / 100.0f));
+	combat_music.setVolume((float)background_music_volume * (GameLibrary::Singleton<Settings>::Get()->music_volume / 100.0f));
 #ifdef _DEBUG
 #else
 	background_music.play();
@@ -113,7 +113,7 @@ int main()
 
 	if (!combat_music.openFromFile("Sound/combat_music.ogg"))
 		return -1;
-	combat_music.setVolume((float)combat_music_volume * (Singleton<Settings>::Get()->music_volume / 100.0f));
+	combat_music.setVolume((float)combat_music_volume * (GameLibrary::Singleton<Settings>::Get()->music_volume / 100.0f));
 #ifdef _DEBUG
 #else
 	combat_music.play();
@@ -167,61 +167,61 @@ int main()
 			} else if (GameState == GAME_STATE_START_MENU) {
 				UpdateGameStateStartMenu();
 			} else if (GameState == GAME_STATE_NEW_GAME) {
-				Singleton<World>::Get()->StartNewGame();
+				GameLibrary::Singleton<World>::Get()->StartNewGame();
 				GameState = GAME_STATE_INITILIZATION;
 			} else if (GameState == GAME_STATE_INITILIZATION) {
 				window->clear();
 				UpdateGameStateLoadingScreen();
-				Singleton<World>::Get()->Init(window, camera, main_character);
+				GameLibrary::Singleton<World>::Get()->Init(window, camera, main_character);
 				GameState = GAME_STATE_IN_GAME;
 				input_handler->EatInputsForNumberOfFrames(1);
 			} else if (GameState == GAME_STATE_IN_GAME) {
 				if (start_button_current && !start_button_previous) {
-					Singleton<World>::Get()->paused = !Singleton<World>::Get()->paused;
+					GameLibrary::Singleton<World>::Get()->paused = !GameLibrary::Singleton<World>::Get()->paused;
 				}
-				if (Singleton<World>::Get()->paused) {
+				if (GameLibrary::Singleton<World>::Get()->paused) {
 					input_handler->EatInputsForNumberOfFrames(1);
 				}
 
 				input_handler->Update();
-				Singleton<World>::Get()->Update(time_current / 1000, frame_delta / 1000);
+				GameLibrary::Singleton<World>::Get()->Update(time_current / 1000, frame_delta / 1000);
 
-				if (Singleton<World>::Get()->IsPlayerInCombat()) {
+				if (GameLibrary::Singleton<World>::Get()->IsPlayerInCombat()) {
 					if (combat_music_volume < 100) {
 						combat_music_volume++;
 						background_music_volume--;
 
-						combat_music.setVolume((float)combat_music_volume * (Singleton<Settings>::Get()->music_volume / 100.0f));
-						background_music.setVolume((float)background_music_volume * (Singleton<Settings>::Get()->music_volume / 100.0f));
+						combat_music.setVolume((float)combat_music_volume * (GameLibrary::Singleton<Settings>::Get()->music_volume / 100.0f));
+						background_music.setVolume((float)background_music_volume * (GameLibrary::Singleton<Settings>::Get()->music_volume / 100.0f));
 					}
 				} else {
 					if (background_music_volume < 100) {
 						background_music_volume++;
 						combat_music_volume--;
 
-						background_music.setVolume((float)background_music_volume * (Singleton<Settings>::Get()->music_volume / 100.0f));
-						combat_music.setVolume((float)combat_music_volume * (Singleton<Settings>::Get()->music_volume / 100.0f));
+						background_music.setVolume((float)background_music_volume * (GameLibrary::Singleton<Settings>::Get()->music_volume / 100.0f));
+						combat_music.setVolume((float)combat_music_volume * (GameLibrary::Singleton<Settings>::Get()->music_volume / 100.0f));
 					}
 				}
 				
-				if (Singleton<World>::Get()->CanContinue()) {
+				if (GameLibrary::Singleton<World>::Get()->CanContinue()) {
 					SetFramesPerSecond(60);
 					if ((a_button_current && !a_button_previous) || (start_button_current && !start_button_previous)) {
-						if (Singleton<World>::Get()->current_number_of_lives > 0) {
-							Singleton<World>::Get()->current_number_of_lives--;
+						if (GameLibrary::Singleton<World>::Get()->current_number_of_lives > 0) {
+							GameLibrary::Singleton<World>::Get()->current_number_of_lives--;
 							GameState = GAME_STATE_INITILIZATION;
 						} else {
-							Singleton<World>::Get()->current_number_of_lives = 2;
+							GameLibrary::Singleton<World>::Get()->current_number_of_lives = 2;
 							GameState = GAME_STATE_START_MENU;
 						}
 					}
-				} else if (Singleton<World>::Get()->main_character->hit_points <= 0) {
+				} else if (GameLibrary::Singleton<World>::Get()->main_character->hit_points <= 0) {
 					SetFramesPerSecond(10);
-				} else if (Singleton<World>::Get()->DidThePlayerBeatTheGame()) {
+				} else if (GameLibrary::Singleton<World>::Get()->DidThePlayerBeatTheGame()) {
 					SetFramesPerSecond(10);
 					input_handler->EatInputsForNumberOfFrames(1);
 					
-					if (Singleton<World>::Get()->ShouldGoToCredits()) {
+					if (GameLibrary::Singleton<World>::Get()->ShouldGoToCredits()) {
 						SetFramesPerSecond(60);
 						GameState = GAME_STATE_CREDITS;
 						credits_text.setPosition(viewport_width / 2.0f - 120.0f, viewport_height + 50.0f);

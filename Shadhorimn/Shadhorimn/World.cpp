@@ -1,14 +1,12 @@
 using namespace std;
 #include <iostream>
 #include "World.h"
-#include "Singleton.h"
-#include "Settings.h"
 
 World::World() {
 }
 
 void World::Init(sf::RenderWindow* window, Camera* cam, PlayerCharacter* character) {
-	Grid = std::vector<std::vector<std::vector<RigidBody*>>>(grid_width, std::vector<std::vector<RigidBody*>>(grid_height, std::vector<RigidBody*>()));
+	Grid = std::vector<std::vector<std::vector<PlatformerLibrary::RigidBody*>>>(grid_width, std::vector<std::vector<PlatformerLibrary::RigidBody*>>(grid_height, std::vector<PlatformerLibrary::RigidBody*>()));
 	render_window = window;
 	camera = cam;
 
@@ -99,7 +97,7 @@ void World::Init(sf::RenderWindow* window, Camera* cam, PlayerCharacter* charact
 		throw exception("Sound file not found");
 	} else {
 		sound_stalagtite_landing.setBuffer(buffer_stalagtite_landing);
-		sound_stalagtite_landing.setVolume(50 * (Singleton<Settings>().Get()->effects_volume / 100.0f));
+		sound_stalagtite_landing.setVolume(50 * (GameLibrary::Singleton<Settings>().Get()->effects_volume / 100.0f));
 		sound_stalagtite_landing.setLoop(false);
 	}
 
@@ -110,7 +108,7 @@ void World::Init(sf::RenderWindow* window, Camera* cam, PlayerCharacter* charact
 	} else {
 		door_opening_volume = 0.0f;
 		door_opening_sound.setBuffer(door_opening_buffer);
-		door_opening_sound.setVolume(door_opening_volume * (Singleton<Settings>().Get()->effects_volume / 100.0f));
+		door_opening_sound.setVolume(door_opening_volume * (GameLibrary::Singleton<Settings>().Get()->effects_volume / 100.0f));
 		door_opening_sound.setLoop(true);
 	}
 }
@@ -134,41 +132,41 @@ void World::Update(sf::Int64 curr_time, sf::Int64 frame_delta) {
 		if (!fighting_boss && charger->hit_points > 0) {
 			boss_health_trigger->Update(frame_delta);
 
-			std::vector<RigidBody*> colliders = boss_health_trigger->GetCollidersRigidBodyIsCollidingWith();
+			std::vector<PlatformerLibrary::RigidBody*> colliders = boss_health_trigger->GetCollidersRigidBodyIsCollidingWith();
 
 			for (int i = 0; i < (int)(colliders.size()); i++) {
-				if (colliders[i]->entity_type == main_character->entity_type) {
+				if (colliders[i]->GetEntityType() == main_character->GetEntityType()) {
 					fighting_boss = true;
 					break;
 				}
 			}
 		}
 
-		if (charger->hit_points <= 0 && end_of_game_door->y > 1100.0f) {
-			end_of_game_door->velocity = sf::Vector2f(0.0f, -1.0f);
+		if (charger->hit_points <= 0 && end_of_game_door->GetCurrentPosition().y > 1100.0f) {
+			end_of_game_door->SetVelocity(0.0f, -1.0f);
 			ScreenShake(0.5f);
 			fighting_boss = false;
 			door_opening_volume = door_opening_volume + 5.0f > 100.0f ? 100.0f : door_opening_volume + 5.0f;
-			door_opening_sound.setVolume(door_opening_volume * (Singleton<Settings>().Get()->effects_volume / 100.0f));
+			door_opening_sound.setVolume(door_opening_volume * (GameLibrary::Singleton<Settings>().Get()->effects_volume / 100.0f));
 			if (door_opening_sound.getStatus() != sf::Sound::Status::Playing) {
 				door_opening_sound.play();
 			}
 		} else {
-			end_of_game_door->velocity = sf::Vector2f(0.0f, 0.0f);
+			end_of_game_door->SetVelocity(0.0f, 0.0f);
 			door_opening_volume = door_opening_volume - 5.0f < 0.0f ? 0.0f : door_opening_volume - 5.0f;
-			door_opening_sound.setVolume(door_opening_volume * (Singleton<Settings>().Get()->effects_volume / 100.0f));
+			door_opening_sound.setVolume(door_opening_volume * (GameLibrary::Singleton<Settings>().Get()->effects_volume / 100.0f));
 			if (door_opening_volume == 0.0f) {
 				door_opening_sound.stop();
 			}
 		}
 
 		if (stalagtite_hit_points <= 0) {
-			if (stalagtite->y < 1500.0f) {
-				stalagtite->gravity_enabled = true;
-			} else if (stalagtite->velocity.y != 0.0f) {
-				stalagtite->gravity_enabled = false;
-				stalagtite->y = 1501.0f;
-				stalagtite->velocity.y = 0.0f;
+			if (stalagtite->GetCurrentPosition().y < 1500.0f) {
+				stalagtite->EnableGravity();
+			} else if (stalagtite->GetVelocity().y != 0.0f) {
+				stalagtite->DisableGravity();
+				stalagtite->SetCurrentPosition(stalagtite->GetCurrentPosition().x, 1501.0f);
+				stalagtite->SetVelocity(0.0f, 0.0f);
 				ScreenShake(5.0f);
 				sound_stalagtite_landing.play();
 			}
@@ -188,8 +186,8 @@ void World::Update(sf::Int64 curr_time, sf::Int64 frame_delta) {
 
 		float lerp = 0.01f;
 		camera_position = camera->viewport_position;
-		camera_position.x += (main_character->x - camera->viewport_dimensions.x / 2.0f - camera_position.x) * lerp * frame_delta;
-		camera_position.y += (main_character->y - camera->viewport_dimensions.y / 2.0f - camera_position.y) * lerp * frame_delta;
+		camera_position.x += (main_character->GetCurrentPosition().x - camera->viewport_dimensions.x / 2.0f - camera_position.x) * lerp * frame_delta;
+		camera_position.y += (main_character->GetCurrentPosition().y - camera->viewport_dimensions.y / 2.0f - camera_position.y) * lerp * frame_delta;
 		camera->viewport_position.x = camera_position.x;
 		camera->viewport_position.y = camera_position.y;
 
@@ -219,40 +217,40 @@ void World::Update(sf::Int64 curr_time, sf::Int64 frame_delta) {
 		charger->Draw(viewport_position_with_screen_shake);
 		charger->DrawProjectiles(viewport_position_with_screen_shake, current_time);
 
-		if (IsObjectInUpdateRange((RigidBody*)end_of_the_game_trigger)) {
-			end_of_the_game_trigger->Update(frame_delta);
+		if (IsObjectInUpdateRange((PlatformerLibrary::RigidBody*)end_of_the_game_trigger)) {
+			((PlatformerLibrary::RigidBody*)end_of_the_game_trigger)->Update(frame_delta);
 			end_of_the_game_trigger->UpdateEndOfTheGame();
 			end_of_the_game_trigger->Draw(viewport_position_with_screen_shake);
 		}
 		for (int i = 0; i < (int)checkpoints.size(); i++) {
-			if (IsObjectInUpdateRange((RigidBody*)checkpoints[i])) {
-				checkpoints[i]->Update(frame_delta);
+			if (IsObjectInUpdateRange((PlatformerLibrary::RigidBody*)checkpoints[i])) {
+				((PlatformerLibrary::RigidBody*)checkpoints[i])->Update(frame_delta);
 				checkpoints[i]->UpdateCheckPoint();
 				checkpoints[i]->Draw(viewport_position_with_screen_shake);
 			}
 		}
 		for (int i = 0; i < (int)grunts.size(); i++) {
-			if (IsObjectInUpdateRange((RigidBody*)grunts[i])) {
+			if (IsObjectInUpdateRange((PlatformerLibrary::RigidBody*)grunts[i])) {
 				grunts[i]->Update(frame_delta);
 				grunts[i]->UpdateBehavior(current_time);
 				grunts[i]->Draw(viewport_position_with_screen_shake);
 
-				if (grunts[i]->hit_points > 0 && RigidBody::GetDistanceBetweenTwoPoints(sf::Vector2f(main_character->x, main_character->y), sf::Vector2f(grunts[i]->x, grunts[i]->y)) < combat_music_range) {
+				if (grunts[i]->hit_points > 0 && PlatformerLibrary::RigidBody::GetDistanceBetweenTwoPoints(sf::Vector2f(main_character->GetCurrentPosition().x, main_character->GetCurrentPosition().y), sf::Vector2f(grunts[i]->GetCurrentPosition().x, grunts[i]->GetCurrentPosition().y)) < combat_music_range) {
 					player_is_in_combat = true;
 				}
 			}
 		}
 			
-		if (IsObjectInUpdateRange((RigidBody*)end_of_game_door)) {
+		if (IsObjectInUpdateRange((PlatformerLibrary::RigidBody*)end_of_game_door)) {
 			end_of_game_door->Update(frame_delta);
 			end_of_game_door->Draw(viewport_position_with_screen_shake);
 		}
-		if (IsObjectInUpdateRange((RigidBody*)stalagtite)) {
+		if (IsObjectInUpdateRange((PlatformerLibrary::RigidBody*)stalagtite)) {
 			stalagtite->Update(frame_delta);
 			stalagtite->Draw(viewport_position_with_screen_shake);
 		}
 		for (int i = 0; i < (int)platforms.size(); i++) {
-			if (IsObjectInUpdateRange((RigidBody*)platforms[i])) {
+			if (IsObjectInUpdateRange((PlatformerLibrary::RigidBody*)platforms[i])) {
 				platforms[i]->Update(frame_delta);
 				platforms[i]->Draw(viewport_position_with_screen_shake);
 			}
@@ -261,12 +259,12 @@ void World::Update(sf::Int64 curr_time, sf::Int64 frame_delta) {
 			gunners[i]->UpdateProjectiles(current_time, frame_delta);
 			gunners[i]->DrawProjectiles(viewport_position_with_screen_shake, current_time);
 
-			if (IsObjectInUpdateRange((RigidBody*)gunners[i])) {
+			if (IsObjectInUpdateRange((PlatformerLibrary::RigidBody*)gunners[i])) {
 				gunners[i]->Update(frame_delta);
 				gunners[i]->UpdateBehavior(current_time);
 				gunners[i]->Draw(viewport_position_with_screen_shake);
 
-				if (gunners[i]->hit_points > 0 && RigidBody::GetDistanceBetweenTwoPoints(sf::Vector2f(main_character->x, main_character->y), sf::Vector2f(gunners[i]->x, gunners[i]->y)) < combat_music_range) {
+				if (gunners[i]->hit_points > 0 && PlatformerLibrary::RigidBody::GetDistanceBetweenTwoPoints(sf::Vector2f(main_character->GetCurrentPosition().x, main_character->GetCurrentPosition().y), sf::Vector2f(gunners[i]->GetCurrentPosition().x, gunners[i]->GetCurrentPosition().y)) < combat_music_range) {
 					player_is_in_combat = true;
 				}
 			}
@@ -275,12 +273,12 @@ void World::Update(sf::Int64 curr_time, sf::Int64 frame_delta) {
 			drones[i]->UpdateProjectiles(current_time, frame_delta);
 			drones[i]->DrawProjectiles(viewport_position_with_screen_shake, current_time);
 
-			if (IsObjectInUpdateRange((RigidBody*)drones[i])) {
+			if (IsObjectInUpdateRange((PlatformerLibrary::RigidBody*)drones[i])) {
 				drones[i]->Update(frame_delta);
 				drones[i]->UpdateBehavior(current_time);
 				drones[i]->Draw(viewport_position_with_screen_shake);
 
-				if (drones[i]->hit_points > 0 && RigidBody::GetDistanceBetweenTwoPoints(sf::Vector2f(main_character->x, main_character->y), sf::Vector2f(drones[i]->x, drones[i]->y)) < combat_music_range) {
+				if (drones[i]->hit_points > 0 && PlatformerLibrary::RigidBody::GetDistanceBetweenTwoPoints(sf::Vector2f(main_character->GetCurrentPosition().x, main_character->GetCurrentPosition().y), sf::Vector2f(drones[i]->GetCurrentPosition().x, drones[i]->GetCurrentPosition().y)) < combat_music_range) {
 					player_is_in_combat = true;
 				}
 			}
@@ -308,14 +306,14 @@ void World::Update(sf::Int64 curr_time, sf::Int64 frame_delta) {
 				end_game_fade_transparency += 5;
 			}
 
-			main_character->velocity = sf::Vector2f(3.0f, main_character->velocity.y);
+			main_character->SetVelocity(3.0f, main_character->GetVelocity().y);
 
 			blank_screen_sprite.setColor(sf::Color(255, 255, 255, end_game_fade_transparency));
 			blank_screen_sprite.setScale(2.0f, 2.0f);
 			//blank_screen_sprite.setPosition(0.0f, 0.0f);
 			render_window->draw(blank_screen_sprite);
 
-			if (main_character->x > 4075.0f) {
+			if (main_character->GetCurrentPosition().x > 4075.0f) {
 				go_to_credits = true;
 			}
 		} else if (CanContinue()) {
@@ -352,20 +350,20 @@ void World::Update(sf::Int64 curr_time, sf::Int64 frame_delta) {
 	render_window->display();
 }
 
-bool World::IsObjectInUpdateRange(RigidBody* rb) {
-	if (RigidBody::GetDistanceBetweenTwoPoints(sf::Vector2f(main_character->x + main_character->width / 2.0f, main_character->y + main_character->height / 2.0f), sf::Vector2f(rb->x, rb->y)) < camera->viewport_dimensions.x + 50.0f) {
+bool World::IsObjectInUpdateRange(PlatformerLibrary::RigidBody* rb) {
+	if (PlatformerLibrary::RigidBody::GetDistanceBetweenTwoPoints(sf::Vector2f(main_character->GetCurrentPosition().x + main_character->GetCurrentDimensions().x / 2.0f, main_character->GetCurrentPosition().y + main_character->GetCurrentDimensions().y / 2.0f), sf::Vector2f(rb->GetCurrentPosition().x, rb->GetCurrentPosition().y)) < camera->viewport_dimensions.x + 50.0f) {
 		return true;
 	}
 
-	if (RigidBody::GetDistanceBetweenTwoPoints(sf::Vector2f(main_character->x + main_character->width / 2.0f, main_character->y + main_character->height / 2.0f), sf::Vector2f(rb->x + rb->width, rb->y)) < camera->viewport_dimensions.x + 50.0f) {
+	if (PlatformerLibrary::RigidBody::GetDistanceBetweenTwoPoints(sf::Vector2f(main_character->GetCurrentPosition().x + main_character->GetCurrentDimensions().x / 2.0f, main_character->GetCurrentPosition().y + main_character->GetCurrentDimensions().y / 2.0f), sf::Vector2f(rb->GetCurrentPosition().x + rb->GetCurrentDimensions().x, rb->GetCurrentPosition().y)) < camera->viewport_dimensions.x + 50.0f) {
 		return true;
 	}
 
-	if (RigidBody::GetDistanceBetweenTwoPoints(sf::Vector2f(main_character->x + main_character->width / 2.0f, main_character->y + main_character->height / 2.0f), sf::Vector2f(rb->x, rb->y + rb->height)) < camera->viewport_dimensions.x + 50.0f) {
+	if (PlatformerLibrary::RigidBody::GetDistanceBetweenTwoPoints(sf::Vector2f(main_character->GetCurrentPosition().x + main_character->GetCurrentDimensions().x / 2.0f, main_character->GetCurrentPosition().y + main_character->GetCurrentDimensions().y / 2.0f), sf::Vector2f(rb->GetCurrentPosition().x, rb->GetCurrentPosition().y + rb->GetCurrentDimensions().y)) < camera->viewport_dimensions.x + 50.0f) {
 		return true;
 	}
 
-	if (RigidBody::GetDistanceBetweenTwoPoints(sf::Vector2f(main_character->x + main_character->width / 2.0f, main_character->y + main_character->height / 2.0f), sf::Vector2f(rb->x + rb->width, rb->y + rb->height)) < camera->viewport_dimensions.x + 50.0f) {
+	if (PlatformerLibrary::RigidBody::GetDistanceBetweenTwoPoints(sf::Vector2f(main_character->GetCurrentPosition().x + main_character->GetCurrentDimensions().x / 2.0f, main_character->GetCurrentPosition().y + main_character->GetCurrentDimensions().y / 2.0f), sf::Vector2f(rb->GetCurrentPosition().x + rb->GetCurrentDimensions().x, rb->GetCurrentPosition().y + rb->GetCurrentDimensions().y)) < camera->viewport_dimensions.x + 50.0f) {
 		return true;
 	}
 
@@ -384,11 +382,11 @@ void World::ScreenShake(float magnitude) {
 	screen_shake_magnitude = magnitude;
 }
 
-void World::AddRigidBodyToGrid(RigidBody* rb) {
-	int topLeftX = (int)rb->x / cell_width;
-	int topLeftY = (int)rb->y / cell_height;
-	int botRightX = (int)(rb->x + rb->width) / cell_width;
-	int botRightY = (int)(rb->y + rb->height) / cell_height;
+void World::AddRigidBodyToGrid(PlatformerLibrary::RigidBody* rb) {
+	int topLeftX = (int)rb->GetCurrentPosition().x / cell_width;
+	int topLeftY = (int)rb->GetCurrentPosition().y / cell_height;
+	int botRightX = (int)(rb->GetCurrentPosition().x + rb->GetCurrentDimensions().x) / cell_width;
+	int botRightY = (int)(rb->GetCurrentPosition().y + rb->GetCurrentDimensions().y) / cell_height;
 
 	if (topLeftX > 0) {
 		topLeftX--;
@@ -417,22 +415,22 @@ void World::AddRigidBodyToGrid(RigidBody* rb) {
 	}
 }
 
-void World::MoveRigidBodyInGrid(RigidBody* rb) {
-	int topLeftX = (int)rb->x / cell_width;
-	int topLeftY = (int)rb->y / cell_height;
-	int botRightX = (int)(rb->x + rb->width) / cell_width;
-	int botRightY = (int)(rb->y + rb->height) / cell_height;
+void World::MoveRigidBodyInGrid(PlatformerLibrary::RigidBody* rb) {
+	int topLeftX = (int)rb->GetCurrentPosition().x / cell_width;
+	int topLeftY = (int)rb->GetCurrentPosition().y / cell_height;
+	int botRightX = (int)(rb->GetCurrentPosition().x + rb->GetCurrentDimensions().x) / cell_width;
+	int botRightY = (int)(rb->GetCurrentPosition().y + rb->GetCurrentDimensions().y) / cell_height;
 
 	if (topLeftX < 0 || topLeftY < 0 || botRightX < 0 || botRightY < 0 ||
 		topLeftX >= (int)Grid.size() || topLeftY >= (int)Grid.size() || botRightX >= (int)Grid.size() || botRightY >= (int)Grid.size()) {
 		return;
 	}
 	
-	if (topLeftX != rb->grid_top_left_x || topLeftY != rb->grid_top_left_y || botRightX != rb->grid_bot_right_x || botRightY != rb->grid_bot_right_y) {
+	if (topLeftX != rb->GetGridTopLeftX() || topLeftY != rb->GetGridTopLeftY() || botRightX != rb->GetGridBotRightX() || botRightY != rb->GetGridBotRightY()) {
 		for (int w = topLeftX; w <= botRightX; w++) {
 			for (int h = topLeftY; h <= botRightY; h++) {
 				for (int r = 0; r < (int)Grid[w][h].size(); r++) {
-					if (Grid[w][h][r]->id == rb->id) {
+					if (Grid[w][h][r]->GetID() == rb->GetID()) {
 						Grid[w][h].erase(Grid[w][h].begin() + r);
 						break;
 					}
@@ -444,7 +442,7 @@ void World::MoveRigidBodyInGrid(RigidBody* rb) {
 	}
 }
 
-std::vector<RigidBody*> World::GetObjectsInGridLocation(int grid_x, int grid_y) {
+std::vector<PlatformerLibrary::RigidBody*> World::GetObjectsInGridLocation(int grid_x, int grid_y) {
 	return Grid[grid_x][grid_y];
 }
 
@@ -508,18 +506,17 @@ void World::BuildReleaseLevel() {
 		current_checkpoint = starting_checkpoint;
 
 		stalagtite = new Platform(render_window, sf::Vector2f(2427.0f, 569.0f), sf::Vector2f(420.0f, 236.0f));
-		stalagtite->entity_type = ENTITY_TYPE_STALAGTITE;
+		stalagtite->SetEntityType(ENTITY_TYPE_STALAGTITE);
 
-		main_character->velocity = sf::Vector2f(5.0f, -5.0f);
+		main_character->SetVelocity(5.0f, -5.0f);
 	} else {
-		stalagtite = new Platform(render_window, sf::Vector2f(2427.0f, stalagtite->y), sf::Vector2f(420.0f, 236.0f));
-		stalagtite->entity_type = ENTITY_TYPE_STALAGTITE;
+		stalagtite = new Platform(render_window, sf::Vector2f(2427.0f, stalagtite->GetCurrentPosition().y), sf::Vector2f(420.0f, 236.0f));
+		stalagtite->SetEntityType(ENTITY_TYPE_STALAGTITE);
 
-		main_character->velocity = sf::Vector2f(0.0f, 0.0f);
+		main_character->SetVelocity(0.0f, 0.0f);
 	}
 
-	main_character->x = current_checkpoint->x;
-	main_character->y = current_checkpoint->y + current_checkpoint->height - main_character->height;
+	main_character->SetCurrentPosition(((PlatformerLibrary::RigidBody*)current_checkpoint)->GetCurrentPosition().x, ((PlatformerLibrary::RigidBody*)current_checkpoint)->GetCurrentPosition().y + ((PlatformerLibrary::RigidBody*)current_checkpoint)->GetCurrentDimensions().y - main_character->GetCurrentDimensions().y);
 	main_character->hit_points = main_character->max_hit_points;
 
 	platforms.erase(platforms.begin(), platforms.end());
@@ -668,8 +665,8 @@ void World::BuildReleaseLevel() {
 
 	charger = new Charger(render_window, sf::Vector2f(3800.0f, 1820.0f), sf::Vector2f(40.0f, 100.0f), true);
 	end_of_the_game_trigger = new EndOfTheGame(render_window, sf::Vector2f(3950.0f, 1408.0f), sf::Vector2f(200.0f, 488.0f), false);
-	boss_health_trigger = new RigidBody(sf::Vector2f(3224.0f, 1824.0f), sf::Vector2f(672.0f, 88.0f), false, false);
-	boss_health_trigger->entity_type = ENTITY_TYPE_BOSS_TRIGGER;
+	boss_health_trigger = new PlatformerLibrary::RigidBody(sf::Vector2f(3224.0f, 1824.0f), sf::Vector2f(672.0f, 88.0f), false, false);
+	boss_health_trigger->SetEntityType(ENTITY_TYPE_BOSS_TRIGGER);
 	end_of_game_door = new Platform(render_window, sf::Vector2f(3912.0f, 1304.0f), sf::Vector2f(112.0f, 640.0f));
 }
 
@@ -682,10 +679,9 @@ void World::BuildTestLevel() {
 		current_checkpoint = starting_checkpoint;
 	}
 
-	main_character->x = current_checkpoint->x;
-	main_character->y = current_checkpoint->y + current_checkpoint->height - main_character->height;
+	main_character->SetCurrentPosition(((PlatformerLibrary::RigidBody*)current_checkpoint)->GetCurrentPosition().x, ((PlatformerLibrary::RigidBody*)current_checkpoint)->GetCurrentPosition().y + ((PlatformerLibrary::RigidBody*)current_checkpoint)->GetCurrentDimensions().y - main_character->GetCurrentDimensions().y);
 	main_character->hit_points = main_character->max_hit_points;
-	main_character->velocity = sf::Vector2f(0.0f, 0.0f);
+	main_character->SetVelocity(0.0f, 0.0f);
 
 	platforms.erase(platforms.begin(), platforms.end());
 	// Starting Room
@@ -735,7 +731,7 @@ void World::BuildTestLevel() {
 	checkpoints.push_back(new Checkpoint(render_window, sf::Vector2f(2700.0f, 250.0f), sf::Vector2f(40.0f, 300.0f), false));
 	checkpoints.push_back(new Checkpoint(render_window, sf::Vector2f(4405.0f, 250.0f), sf::Vector2f(40.0f, 300.0f), false));
 
-	boss_health_trigger = new RigidBody(sf::Vector2f(4450.0f, 1600.0f), sf::Vector2f(200.0f, 50.0f), false, false);
+	boss_health_trigger = new PlatformerLibrary::RigidBody(sf::Vector2f(4450.0f, 1600.0f), sf::Vector2f(200.0f, 50.0f), false, false);
 
 	gunners.erase(gunners.begin(), gunners.end());
 	//gunners.push_back(new Gunner(render_window, sf::Vector2f(3980.0f, 700.0f), sf::Vector2f(40.0f, 80.0f), true));
@@ -769,10 +765,9 @@ void World::BuildDevLevel() {
 		current_checkpoint = new Checkpoint(render_window, sf::Vector2f(500.0f, 590.0f), sf::Vector2f(40.0f, 10.0f), false);
 	}
 
-	main_character->x = current_checkpoint->x;
-	main_character->y = current_checkpoint->y + current_checkpoint->height - main_character->height;
+	main_character->SetCurrentPosition(((PlatformerLibrary::RigidBody*)current_checkpoint)->GetCurrentPosition().x, ((PlatformerLibrary::RigidBody*)current_checkpoint)->GetCurrentPosition().y + ((PlatformerLibrary::RigidBody*)current_checkpoint)->GetCurrentDimensions().y - main_character->GetCurrentDimensions().y);
 	main_character->hit_points = main_character->max_hit_points;
-	main_character->velocity = sf::Vector2f(0.0f, 0.0f);
+	main_character->SetVelocity(0.0f, 0.0f);
 
 	checkpoints.erase(checkpoints.begin(), checkpoints.end());
 	checkpoints.push_back(new Checkpoint(render_window, sf::Vector2f(2.0f, 590.0f), sf::Vector2f(40.0f, 10.0f), false));

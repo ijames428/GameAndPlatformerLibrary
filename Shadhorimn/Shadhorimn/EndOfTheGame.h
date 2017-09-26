@@ -2,10 +2,11 @@
 #define END_OF_THE_GAME_H
 
 using namespace std;
+#include "..\GameLibrary\Singleton.h"
+#include "..\PlatformerLibrary\RigidBody.h"
 #include <SFML/Graphics.hpp>
-#include "RigidBody.h"
 
-class EndOfTheGame : public RigidBody {
+class EndOfTheGame : public PlatformerLibrary::RigidBody {
 public:
 	sf::RenderWindow *render_window;
 	sf::RectangleShape rectangle_shape;

@@ -2,12 +2,13 @@
 #define PROJECTILE_H
 
 using namespace std;
+#include "..\GameLibrary\Singleton.h"
+#include "..\PlatformerLibrary\RigidBody.h"
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
-#include "RigidBody.h"
 #include "Creature.h"
 
-class Projectile : public RigidBody {
+class Projectile : public PlatformerLibrary::RigidBody {
 protected:
 	sf::Texture impact_texture;
 	sf::Sprite impact_sprite;
@@ -32,7 +33,6 @@ public:
 	void Draw(sf::Vector2f camera_position, sf::Int64 curr_time);
 	void UpdateProjectile(sf::Int64 curr_time);
 	void Fire(sf::Int64 curr_time, sf::Vector2f position = sf::Vector2f(0.0f, 0.0f), sf::Vector2f velocity = sf::Vector2f(0.0f, 0.0f));
-	void ExcludeFromCollision(int ent_typ);
 };
 
 #endif

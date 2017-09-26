@@ -2,10 +2,10 @@
 #define CHECKPOINT_H
 
 using namespace std;
+#include "..\PlatformerLibrary\RigidBody.h"
 #include <SFML/Graphics.hpp>
-#include "RigidBody.h"
 
-class Checkpoint : public RigidBody {
+class Checkpoint : public PlatformerLibrary::RigidBody {
 public:
 	sf::RenderWindow *render_window;
 	sf::RectangleShape rectangle_shape;

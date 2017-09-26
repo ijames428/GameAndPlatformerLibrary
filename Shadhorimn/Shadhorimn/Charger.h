@@ -2,6 +2,8 @@
 #define CHARGER_H
 
 using namespace std;
+#include "..\GameLibrary\Singleton.h"
+#include "..\PlatformerLibrary\RigidBody.h"
 #include <SFML/Graphics.hpp>
 #include "Creature.h"
 #include "PlayerCharacter.h"

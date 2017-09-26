@@ -7,6 +7,7 @@ using namespace std;
 #include "SpriteAnimation.h"
 #include "Projectile.h"
 #include "Creature.h"
+#include "..\GameLibrary\Singleton.h"
 
 class PlayerCharacter : public Creature {
 	private:

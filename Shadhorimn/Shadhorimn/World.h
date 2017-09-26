@@ -1,10 +1,12 @@
 using namespace std;
+//using namespace PlatformerLibrary;
+#include "..\GameLibrary\Singleton.h"
 #include <SFML/Graphics.hpp>
 #include "PlayerCharacter.h"
 #include "Checkpoint.h"
 #include "EndOfTheGame.h"
-#include "RigidBody.h"
 #include "Platform.h"
+#include "Settings.h"
 #include "Charger.h"
 #include "Camera.h"
 #include "Gunner.h"
@@ -62,7 +64,7 @@ class World {
 		std::vector<Gunner*> gunners = std::vector<Gunner*>();
 		std::vector<Grunt*> grunts = std::vector<Grunt*>();
 		std::vector<Drone*> drones = std::vector<Drone*>();
-		RigidBody* boss_health_trigger;
+		PlatformerLibrary::RigidBody* boss_health_trigger;
 		Platform* end_of_game_door;
 		Platform* stalagtite;
 		int stalagtite_hit_points = 3;
@@ -74,7 +76,7 @@ class World {
 		int cell_width = 100;
 		int cell_height = 100;
 		float combat_music_range;
-		std::vector<std::vector<std::vector<RigidBody*>>> Grid = std::vector<std::vector<std::vector<RigidBody*>>>(grid_width, std::vector<std::vector<RigidBody*>>(grid_height, std::vector<RigidBody*>()));
+		std::vector<std::vector<std::vector<PlatformerLibrary::RigidBody*>>> Grid = std::vector<std::vector<std::vector<PlatformerLibrary::RigidBody*>>>(grid_width, std::vector<std::vector<PlatformerLibrary::RigidBody*>>(grid_height, std::vector<PlatformerLibrary::RigidBody*>()));
 	public:
 		const int ENTITY_TYPE_CHARGER = 0;
 		const int ENTITY_TYPE_CHECKPOINT = 1;
@@ -98,9 +100,9 @@ class World {
 		World();
 		void Init(sf::RenderWindow* window, Camera* cam, PlayerCharacter* character);
 		void Update(sf::Int64 current_time, sf::Int64 frame_delta);
-		void AddRigidBodyToGrid(RigidBody* rb);
-		void MoveRigidBodyInGrid(RigidBody* rb);
-		std::vector<RigidBody*> GetObjectsInGridLocation(int grid_x, int grid_y);
+		void AddRigidBodyToGrid(PlatformerLibrary::RigidBody* rb);
+		void MoveRigidBodyInGrid(PlatformerLibrary::RigidBody* rb);
+		std::vector<PlatformerLibrary::RigidBody*> GetObjectsInGridLocation(int grid_x, int grid_y);
 		void ScreenShake(float magnitude);
 		void SetCurrentCheckPoint(Checkpoint* cp);
 		void EndTheGame();
@@ -110,7 +112,7 @@ class World {
 		void BuildDevLevel();
 		void BuildTestLevel();
 		void BuildReleaseLevel();
-		bool IsObjectInUpdateRange(RigidBody* rb);
+		bool IsObjectInUpdateRange(PlatformerLibrary::RigidBody* rb);
 		bool IsNewGame();
 		void StartNewGame();
 		void HitStalagtite();

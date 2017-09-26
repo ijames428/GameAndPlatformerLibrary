@@ -2,10 +2,11 @@
 #define CREATURE_H
 
 using namespace std;
+#include "..\GameLibrary\Singleton.h"
+#include "..\PlatformerLibrary\RigidBody.h"
 #include <SFML/Graphics.hpp>
-#include "RigidBody.h"
 
-class Creature : public RigidBody {
+class Creature : public PlatformerLibrary::RigidBody {
 	protected:
 		sf::Int64 current_time;
 		sf::Int64 hit_stun_start_time;

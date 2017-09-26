@@ -1,14 +1,13 @@
 using namespace std;
 #include <iostream>
 #include "Creature.h"
-#include "Singleton.h"
 #include "World.h"
 
-Creature::Creature(sf::RenderWindow *window, sf::Vector2f position, sf::Vector2f dimensions, bool subject_to_gravity) : RigidBody::RigidBody(position, dimensions, subject_to_gravity) {
-	entity_type = Singleton<World>::Get()->ENTITY_TYPE_CREATURE;
+Creature::Creature(sf::RenderWindow *window, sf::Vector2f position, sf::Vector2f dimensions, bool subject_to_gravity) : PlatformerLibrary::RigidBody(position, dimensions, subject_to_gravity) {
+	SetEntityType(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_CREATURE);
 	hit_points = 1;
-	facing_right_when_hit = false;
-	lock_facing_direction_when_hit = false;
+	SetFacingRightWhenHit(false);
+	UnlockFacingDirection();
 	post_hit_invincibility_start_time = 0;
 	post_hit_invincibility_duration = 2000;
 
@@ -37,7 +36,7 @@ Creature::Creature(sf::RenderWindow *window, sf::Vector2f position, sf::Vector2f
 }
 
 void Creature::Draw(sf::Vector2f camera_position) {
-	rectangle_shape.setPosition(sf::Vector2f(x - camera_position.x, y - camera_position.y));
+	rectangle_shape.setPosition(sf::Vector2f(GetCurrentPosition().x - camera_position.x, GetCurrentPosition().y - camera_position.y));
 	render_window->draw(rectangle_shape);
 }
 
@@ -59,7 +58,7 @@ bool Creature::IsInPostHitInvincibility() {
 
 void Creature::TakeHit(sf::Int64 damage, sf::Int64 hit_stun_dur, sf::Vector2f knock_back, bool activate_invincibility, bool lock_facing_direction) {
 #ifdef _DEBUG
-	if (entity_type == Singleton<World>::Get()->ENTITY_TYPE_PLAYER_CHARACTER) {
+	if (GetEntityType() == GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_PLAYER_CHARACTER) {
 		//damage = 0;
 	}
 #endif
@@ -68,7 +67,7 @@ void Creature::TakeHit(sf::Int64 damage, sf::Int64 hit_stun_dur, sf::Vector2f kn
 		return;
 	}
 
-	if (entity_type == Singleton<World>::Get()->ENTITY_TYPE_PLAYER_CHARACTER) {
+	if (GetEntityType() == GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_PLAYER_CHARACTER) {
 		if (IsInPostHitInvincibility()) {
 			return;
 		}
@@ -79,12 +78,11 @@ void Creature::TakeHit(sf::Int64 damage, sf::Int64 hit_stun_dur, sf::Vector2f kn
 	}
 
 	if (lock_facing_direction) {
-		facing_right_when_hit = facing_right;
-		lock_facing_direction_when_hit = true;
+		SetFacingRightWhenHit(IsFacingRight());
+		LockFacingDirection();
 	}
 
-	velocity.x = knock_back.x;
-	velocity.y = -knock_back.y;
+	SetVelocity(knock_back.x, -knock_back.y);
 	
 	sf::Int16 adjusted_damage = (sf::Int16)damage;
 
@@ -105,17 +103,17 @@ void Creature::TakeHit(sf::Int64 damage, sf::Int64 hit_stun_dur, sf::Vector2f kn
 void Creature::OnDeath() {
 	hit_points = 0;
 
-	if (entity_type != Singleton<World>::Get()->ENTITY_TYPE_PLAYER_CHARACTER) {
-		only_collide_with_platforms = true;
-		entities_excluded_from_collision.push_back(Singleton<World>::Get()->ENTITY_TYPE_PLAYER_CHARACTER);
-		entities_excluded_from_collision.push_back(Singleton<World>::Get()->ENTITY_TYPE_RIGID_BODY);
-		entities_excluded_from_collision.push_back(Singleton<World>::Get()->ENTITY_TYPE_DRONE);
-		entities_excluded_from_collision.push_back(Singleton<World>::Get()->ENTITY_TYPE_GRUNT);
-		entities_excluded_from_collision.push_back(Singleton<World>::Get()->ENTITY_TYPE_GUNNER);
-		entities_excluded_from_collision.push_back(Singleton<World>::Get()->ENTITY_TYPE_CHARGER);
-		entities_excluded_from_collision.push_back(Singleton<World>::Get()->ENTITY_TYPE_PROJECTILE);
-		entities_excluded_from_collision.push_back(Singleton<World>::Get()->ENTITY_TYPE_HIT_BOX);
+	if (GetEntityType() != GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_PLAYER_CHARACTER) {
+		OnlyCollideWithPlatforms(true);
+		ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_PLAYER_CHARACTER);
+		ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_RIGID_BODY);
+		ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_DRONE);
+		ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_GRUNT);
+		ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_GUNNER);
+		ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_CHARGER);
+		ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_PROJECTILE);
+		ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_HIT_BOX);
 	} else {
-		Singleton<World>::Get()->PlayerDied();
+		GameLibrary::Singleton<World>::Get()->PlayerDied();
 	}
 }

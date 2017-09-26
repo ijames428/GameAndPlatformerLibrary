@@ -2,13 +2,12 @@ using namespace std;
 #include <iostream>
 #include "PlayerCharacter.h"
 #include "AssetManager.h"
-#include "Singleton.h"
 #include "Settings.h"
 #include "World.h"
 
 PlayerCharacter::PlayerCharacter(sf::RenderWindow *window, sf::Vector2f position, sf::Vector2f dimensions, bool subject_to_gravity) : 
 	Creature::Creature(window, position, dimensions, subject_to_gravity) {
-	entity_type = Singleton<World>::Get()->ENTITY_TYPE_PLAYER_CHARACTER;
+	SetEntityType(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_PLAYER_CHARACTER);
 	hit_points = max_hit_points = 10;
 	can_take_input = true;
 	time_of_last_attack = 0;
@@ -21,16 +20,16 @@ PlayerCharacter::PlayerCharacter(sf::RenderWindow *window, sf::Vector2f position
 	hit_terminal_velocity = false;
 
 	HitBox = new RigidBody(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(60.0f, 10.0f), false, false);
-	HitBox->entities_excluded_from_collision.push_back(entity_type);
-	HitBox->entity_type = Singleton<World>::Get()->ENTITY_TYPE_HIT_BOX;
+	HitBox->ExcludeFromCollision(GetEntityType());
+	HitBox->SetEntityType(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_HIT_BOX);
 
 	for (int i = 0; i < 10; i++) {
 		projectiles.push_back(new Projectile(window, position, sf::Vector2f(20.0f, 20.0f), false));
-		projectiles[i]->ExcludeFromCollision(entity_type);
-		projectiles[i]->ExcludeFromCollision(HitBox->entity_type);
+		projectiles[i]->ExcludeFromCollision(GetEntityType());
+		projectiles[i]->ExcludeFromCollision(HitBox->GetEntityType());
 	}
 
-	entities_excluded_from_collision.push_back(projectiles[0]->entity_type);
+	ExcludeFromCollision(projectiles[0]->GetEntityType());
 
 	speed = 5.0f;
 	jump_power = 12.0f;
@@ -45,37 +44,37 @@ PlayerCharacter::PlayerCharacter(sf::RenderWindow *window, sf::Vector2f position
 
 	idle_sprite_scale = 0.12f;
 
-	idle_texture = *Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Idle.png");
+	idle_texture = *GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Idle.png");
 	idle_sprite = sf::Sprite(idle_texture);
-	//idle_sprite = sf::Sprite(Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Idle.png"));
+	//idle_sprite = sf::Sprite(GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Idle.png"));
 	idle_sprite.setScale(idle_sprite_scale, idle_sprite_scale);
 	idle_sprite.setColor(player_color);
 
 	running_animation = new SpriteAnimation(render_window, "Images/Kaltar_Running.png", 582, 522, 91, 9, 11, 0.12f, player_color);
 
-	attack_texture = *Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Attack.png");
+	attack_texture = *GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Attack.png");
 	attack_sprite = sf::Sprite(attack_texture);
-	//attack_sprite = sf::Sprite(Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Attack.png"));
+	//attack_sprite = sf::Sprite(GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Attack.png"));
 	attack_sprite.setScale(idle_sprite_scale, idle_sprite_scale);
 	attack_sprite.setColor(player_color);
 
-	fire_texture = *Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Fire.png");
+	fire_texture = *GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Fire.png");
 	fire_sprite = sf::Sprite(fire_texture);
-	//fire_sprite = sf::Sprite(Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Fire.png"));
+	//fire_sprite = sf::Sprite(GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Fire.png"));
 	fire_sprite.setScale(idle_sprite_scale, idle_sprite_scale);
 	fire_sprite.setColor(player_color);
 
-	dodge_texture = *Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Dodge.png");
+	dodge_texture = *GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Dodge.png");
 	dodge_sprite = sf::Sprite(dodge_texture);
 	dodge_sprite.setScale(idle_sprite_scale, idle_sprite_scale);
 	dodge_sprite.setColor(player_color);
 
-	taking_damage_texture = *Singleton<AssetManager>().Get()->GetTexture("Images/kaltar_taking_damage.png");
+	taking_damage_texture = *GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/kaltar_taking_damage.png");
 	taking_damage_sprite = sf::Sprite(taking_damage_texture);
 	taking_damage_sprite.setScale(idle_sprite_scale, idle_sprite_scale);
 	taking_damage_sprite.setColor(player_color);
 
-	dead_on_ground_texture = *Singleton<AssetManager>().Get()->GetTexture("Images/kaltar_dead_on_ground.png");
+	dead_on_ground_texture = *GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/kaltar_dead_on_ground.png");
 	dead_on_ground_sprite = sf::Sprite(dead_on_ground_texture);
 	dead_on_ground_sprite.setScale(idle_sprite_scale, idle_sprite_scale);
 	dead_on_ground_sprite.setColor(player_color);
@@ -85,7 +84,7 @@ PlayerCharacter::PlayerCharacter(sf::RenderWindow *window, sf::Vector2f position
 	} else {
 		hit_sounds.push_back(sf::Sound());
 		hit_sounds[0].setBuffer(buffer0);
-		hit_sounds[0].setVolume(20 * (Singleton<Settings>().Get()->effects_volume / 100.0f));
+		hit_sounds[0].setVolume(20 * (GameLibrary::Singleton<Settings>().Get()->effects_volume / 100.0f));
 	}
 
 	if (!buffer1.loadFromFile("Sound/Hit1.wav")) {
@@ -93,7 +92,7 @@ PlayerCharacter::PlayerCharacter(sf::RenderWindow *window, sf::Vector2f position
 	} else {
 		hit_sounds.push_back(sf::Sound());
 		hit_sounds[1].setBuffer(buffer1);
-		hit_sounds[1].setVolume(20 * (Singleton<Settings>().Get()->effects_volume / 100.0f));
+		hit_sounds[1].setVolume(20 * (GameLibrary::Singleton<Settings>().Get()->effects_volume / 100.0f));
 	}
 
 	if (!buffer2.loadFromFile("Sound/Hit2.wav")) {
@@ -101,49 +100,49 @@ PlayerCharacter::PlayerCharacter(sf::RenderWindow *window, sf::Vector2f position
 	} else {
 		hit_sounds.push_back(sf::Sound());
 		hit_sounds[2].setBuffer(buffer2);
-		hit_sounds[2].setVolume(20 * (Singleton<Settings>().Get()->effects_volume / 100.0f));
+		hit_sounds[2].setVolume(20 * (GameLibrary::Singleton<Settings>().Get()->effects_volume / 100.0f));
 	}
 
 	if (!bufferLand.loadFromFile("Sound/Land.wav")) {
 		throw exception("Sound file not found");
 	} else {
 		soundLand.setBuffer(bufferLand);
-		soundLand.setVolume(Singleton<Settings>().Get()->effects_volume);
+		soundLand.setVolume(GameLibrary::Singleton<Settings>().Get()->effects_volume);
 	}
 
 	if (!bufferJump.loadFromFile("Sound/Jump.wav")) {
 		throw exception("Sound file not found");
 	} else {
 		soundJump.setBuffer(bufferJump);
-		soundJump.setVolume(20 * (Singleton<Settings>().Get()->effects_volume / 100.0f));
+		soundJump.setVolume(20 * (GameLibrary::Singleton<Settings>().Get()->effects_volume / 100.0f));
 	}
 
 	if (!sword_whiffing_buffer.loadFromFile("Sound/sword_whiffing.wav")) {
 		throw exception("Sound file not found");
 	} else {
 		sword_whiffing_sound.setBuffer(sword_whiffing_buffer);
-		sword_whiffing_sound.setVolume(Singleton<Settings>().Get()->effects_volume);
+		sword_whiffing_sound.setVolume(GameLibrary::Singleton<Settings>().Get()->effects_volume);
 	}
 
 	if (!sword_hitting_enemy_buffer.loadFromFile("Sound/sword_hitting.wav")) {
 		throw exception("Sound file not found");
 	} else {
 		sword_hitting_enemy_sound.setBuffer(sword_hitting_enemy_buffer);
-		sword_hitting_enemy_sound.setVolume(Singleton<Settings>().Get()->effects_volume);
+		sword_hitting_enemy_sound.setVolume(GameLibrary::Singleton<Settings>().Get()->effects_volume);
 	}
 
 	if (!firing_projectile_buffer.loadFromFile("Sound/kaltar_firing.wav")) {
 		throw exception("Sound file not found");
 	} else {
 		firing_projectile_sound.setBuffer(firing_projectile_buffer);
-		firing_projectile_sound.setVolume(Singleton<Settings>().Get()->effects_volume * 2.0f);
+		firing_projectile_sound.setVolume(GameLibrary::Singleton<Settings>().Get()->effects_volume * 2.0f);
 	}
 
 	if (!landing_buffer.loadFromFile("Sound/player_landing.wav")) {
 		throw exception("Sound file not found");
 	} else {
 		landing_sound.setBuffer(landing_buffer);
-		landing_sound.setVolume(Singleton<Settings>().Get()->effects_volume / 10.0f);
+		landing_sound.setVolume(GameLibrary::Singleton<Settings>().Get()->effects_volume / 10.0f);
 	}
 }
 
@@ -152,39 +151,29 @@ void PlayerCharacter::UpdatePlayerCharacter(sf::Int64 curr_time) {
 
 	if (IsDodging()) {
 		can_take_input = false;
-		if (facing_right) {
-			velocity.x = dodge_velocity_x;
+		if (IsFacingRight()) {
+			SetVelocity(dodge_velocity_x, GetVelocity().y);
 		} else {
-			velocity.x = -dodge_velocity_x;
+			SetVelocity(-dodge_velocity_x, GetVelocity().y);
 		}
 	} else if (hit_stun_start_time + hit_stun_duration > current_time) {
 		can_take_input = false;
 	} else if (time_of_last_attack + attack_duration > current_time) {
 		can_take_input = false;
 
-		if (!in_the_air) {
-			velocity.x = 0.0f;
-			velocity.y = 0.0f;
+		if (!IsInTheAir()) {
+			SetVelocity(0.0f, 0.0f);
 		}
 	} else if (time_of_last_fire + fire_duration > current_time) {
 		can_take_input = false;
 	} else {
-		if (!in_the_air) {
-			lock_facing_direction_when_hit = false;
+		if (!IsInTheAir()) {
+			UnlockFacingDirection();
 		}
 		can_take_input = true;
 	}
 
-	if (velocity.y > terminal_velocity * 0.99f) {
-		hit_terminal_velocity = true;
-	}
-
-	if (was_in_air && !in_the_air) {
-		hit_terminal_velocity = false;
-		//landing_sound.play();
-	}
-
-	was_in_air = in_the_air;
+	was_in_air = IsInTheAir();
 }
 
 void PlayerCharacter::UpdateProjectiles(sf::Int64 curr_time, sf::Int64 frame_delta) {
@@ -231,7 +220,7 @@ void PlayerCharacter::Draw(sf::Vector2f camera_position) {
 		}
 	}
 
-	if (facing_right) {
+	if (IsFacingRight()) {
 		idle_sprite.setScale(idle_sprite_scale, idle_sprite.getScale().y);
 		attack_sprite.setScale(idle_sprite_scale, idle_sprite.getScale().y);
 		fire_sprite.setScale(idle_sprite_scale, idle_sprite.getScale().y);
@@ -247,84 +236,84 @@ void PlayerCharacter::Draw(sf::Vector2f camera_position) {
 		dead_on_ground_sprite.setScale(-idle_sprite_scale, idle_sprite.getScale().y);
 	}
 
-	if (facing_right != running_animation->IsFacingRight()) {
+	if (IsFacingRight() != running_animation->IsFacingRight()) {
 		running_animation->Flip();
 	}
 
 	if (hit_points <= 0) {
-		if (facing_right) {
-			taking_damage_sprite.setPosition(sf::Vector2f(x - camera_position.x, y - camera_position.y));
-			dead_on_ground_sprite.setPosition(sf::Vector2f(x - camera_position.x, y - camera_position.y));
+		if (IsFacingRight()) {
+			taking_damage_sprite.setPosition(sf::Vector2f(GetCurrentPosition().x - camera_position.x, GetCurrentPosition().y - camera_position.y));
+			dead_on_ground_sprite.setPosition(sf::Vector2f(GetCurrentPosition().x - camera_position.x, GetCurrentPosition().y - camera_position.y));
 		} else {
-			taking_damage_sprite.setPosition(sf::Vector2f(x + width - camera_position.x, y - camera_position.y));
-			dead_on_ground_sprite.setPosition(sf::Vector2f(x + width - camera_position.x, y - camera_position.y));
+			taking_damage_sprite.setPosition(sf::Vector2f(GetCurrentPosition().x + GetCurrentDimensions().x - camera_position.x, GetCurrentPosition().y - camera_position.y));
+			dead_on_ground_sprite.setPosition(sf::Vector2f(GetCurrentPosition().x + GetCurrentDimensions().x - camera_position.x, GetCurrentPosition().y - camera_position.y));
 		}
 
-		if (in_the_air) {
+		if (IsInTheAir()) {
 			render_window->draw(taking_damage_sprite);
 		} else {
 			render_window->draw(dead_on_ground_sprite);
 		}
 
 	} else if (IsDodging()) {
-		if (facing_right) {
-			dodge_sprite.setPosition(sf::Vector2f(x - camera_position.x, y - camera_position.y));
+		if (IsFacingRight()) {
+			dodge_sprite.setPosition(sf::Vector2f(GetCurrentPosition().x - camera_position.x, GetCurrentPosition().y - camera_position.y));
 		}
 		else {
-			dodge_sprite.setPosition(sf::Vector2f(x + width - camera_position.x, y - camera_position.y));
+			dodge_sprite.setPosition(sf::Vector2f(GetCurrentPosition().x + GetCurrentDimensions().x - camera_position.x, GetCurrentPosition().y - camera_position.y));
 		}
 		render_window->draw(dodge_sprite);
 	} else if (hit_stun_start_time + hit_stun_duration > current_time) {
-		if (facing_right) {
-			taking_damage_sprite.setPosition(sf::Vector2f(x - camera_position.x, y - camera_position.y));
+		if (IsFacingRight()) {
+			taking_damage_sprite.setPosition(sf::Vector2f(GetCurrentPosition().x - camera_position.x, GetCurrentPosition().y - camera_position.y));
 		}
 		else {
-			taking_damage_sprite.setPosition(sf::Vector2f(x + width - camera_position.x, y - camera_position.y));
+			taking_damage_sprite.setPosition(sf::Vector2f(GetCurrentPosition().x + GetCurrentDimensions().x - camera_position.x, GetCurrentPosition().y - camera_position.y));
 		}
 		render_window->draw(taking_damage_sprite);
 	} else if (time_of_last_attack + attack_duration > current_time) {
-		if (facing_right) {
-			attack_sprite.setPosition(sf::Vector2f(x - camera_position.x, y - camera_position.y));
+		if (IsFacingRight()) {
+			attack_sprite.setPosition(sf::Vector2f(GetCurrentPosition().x - camera_position.x, GetCurrentPosition().y - camera_position.y));
 		} else {
-			attack_sprite.setPosition(sf::Vector2f(x + width - camera_position.x, y - camera_position.y));
+			attack_sprite.setPosition(sf::Vector2f(GetCurrentPosition().x + GetCurrentDimensions().x - camera_position.x, GetCurrentPosition().y - camera_position.y));
 		}
 		render_window->draw(attack_sprite);
 	} else if (time_of_last_fire + fire_duration > current_time) {
-		if (facing_right) {
-			fire_sprite.setPosition(sf::Vector2f(x - camera_position.x, y - camera_position.y));
+		if (IsFacingRight()) {
+			fire_sprite.setPosition(sf::Vector2f(GetCurrentPosition().x - camera_position.x, GetCurrentPosition().y - camera_position.y));
 		} else {
-			fire_sprite.setPosition(sf::Vector2f(x + width - camera_position.x, y - camera_position.y));
+			fire_sprite.setPosition(sf::Vector2f(GetCurrentPosition().x + GetCurrentDimensions().x - camera_position.x, GetCurrentPosition().y - camera_position.y));
 		}
 		render_window->draw(fire_sprite);
-	} else if (velocity.x == 0) {
-		if (facing_right) {
-			idle_sprite.setPosition(sf::Vector2f(x - camera_position.x, y - camera_position.y));
+	} else if (GetVelocity().x == 0.0f) {
+		if (IsFacingRight()) {
+			idle_sprite.setPosition(sf::Vector2f(GetCurrentPosition().x - camera_position.x, GetCurrentPosition().y - camera_position.y));
 		}
 		else {
-			idle_sprite.setPosition(sf::Vector2f(x + width - camera_position.x, y - camera_position.y));
+			idle_sprite.setPosition(sf::Vector2f(GetCurrentPosition().x + GetCurrentDimensions().x - camera_position.x, GetCurrentPosition().y - camera_position.y));
 		}
 		//idle_sprite.setPosition(sf::Vector2f((x + width / 2.0f) - (idle_texture.getSize().x * idle_sprite.getScale().x / 2.0f) - camera_position.x,
 		//	(y + height / 2.0f) - (idle_texture.getSize().y * idle_sprite.getScale().y / 2.0f) - camera_position.y));
 		render_window->draw(idle_sprite);
 	} else {
-		running_animation->Draw(camera_position, sf::Vector2f(x + width / 2.0f, y + height / 2.0f));
+		running_animation->Draw(camera_position, sf::Vector2f(GetCurrentPosition().x + GetCurrentDimensions().x / 2.0f, GetCurrentPosition().y + GetCurrentDimensions().y / 2.0f));
 	}
 }
 
 void PlayerCharacter::HandleLeftStickInput(float horizontal, float vertical) {
 	if (can_take_input && hit_points > 0) {
-		velocity.x = (horizontal / 100.0f) * speed;
+		SetVelocity((horizontal / 100.0f) * speed, GetVelocity().y);
 
-		if (lock_facing_direction_when_hit && hit_stun_start_time + hit_stun_duration < current_time) {
-			lock_facing_direction_when_hit = false;
+		if (IsFacingDirectionLocked() && hit_stun_start_time + hit_stun_duration < current_time) {
+			UnlockFacingDirection();
 		}
 	}
 }
 
 void PlayerCharacter::HandleButtonAPress() {
-	if (!in_the_air && hit_points > 0) {
-		velocity.y = -(jump_power);
-		in_the_air = true;
+	if (!IsInTheAir() && hit_points > 0) {
+		SetVelocity(GetVelocity().x, -(jump_power));
+		SetInTheAir(true);
 		//soundJump.play();
 	}
 }
@@ -333,7 +322,7 @@ void PlayerCharacter::HandleButtonARelease() {
 }
 
 void PlayerCharacter::HandleButtonBPress() {
-	if (!IsDodging() && !in_the_air && hit_points > 0) {
+	if (!IsDodging() && !IsInTheAir() && hit_points > 0) {
 		dodge_start_time = current_time;
 		dodge_invincibility_start_time = current_time;
 	}
@@ -350,44 +339,42 @@ void PlayerCharacter::HandleButtonXPress() {
 		knock_back.x = 2.0f;
 		knock_back.y = 6.0f;
 
-		if (facing_right) {
-			HitBox->x = x + width;
-		}
-		else {
+		if (IsFacingRight()) {
+			HitBox->SetCurrentPosition(GetCurrentPosition().x + GetCurrentDimensions().x, GetCurrentPosition().y);
+		} else {
 			knock_back.x *= -1.0f;
-			HitBox->x = x - HitBox->width;
+			HitBox->SetCurrentPosition(GetCurrentPosition().x - HitBox->GetCurrentDimensions().x, GetCurrentPosition().y);
 		}
-		HitBox->y = y;
 		HitBox->Update(0);
 		std::vector<RigidBody*> hit_objects = HitBox->GetCollidersRigidBodyIsCollidingWith();
 		bool hit_something = false;
 
 		if (hit_objects.size() > 0) {
 			for (int i = 0; i < (int)hit_objects.size(); i++) {
-				if (!hit_objects[i]->only_collide_with_platforms &&
-					(hit_objects[i]->entity_type == Singleton<World>::Get()->ENTITY_TYPE_DRONE ||
-						hit_objects[i]->entity_type == Singleton<World>::Get()->ENTITY_TYPE_GRUNT ||
-						hit_objects[i]->entity_type == Singleton<World>::Get()->ENTITY_TYPE_GUNNER ||
-						hit_objects[i]->entity_type == Singleton<World>::Get()->ENTITY_TYPE_CHARGER)) {
+				if (!hit_objects[i]->WillOnlyCollidingWithPlatforms() &&
+					(hit_objects[i]->GetEntityType() == GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_DRONE ||
+						hit_objects[i]->GetEntityType() == GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_GRUNT ||
+						hit_objects[i]->GetEntityType() == GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_GUNNER ||
+						hit_objects[i]->GetEntityType() == GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_CHARGER)) {
 					hit_something = true;
 					((Creature*)(hit_objects[i]))->TakeHit(2, 500, knock_back, false, true);
 					sword_hitting_enemy_sound.play();
-				} else if (!hit_objects[i]->only_collide_with_platforms &&
-					hit_objects[i]->entity_type == Singleton<World>::Get()->ENTITY_TYPE_PROJECTILE) {
+				} else if (!hit_objects[i]->WillOnlyCollidingWithPlatforms() &&
+					hit_objects[i]->GetEntityType() == GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_PROJECTILE) {
 					hit_something = true;
 					((Projectile*)(hit_objects[i]))->fired_velocity.x *= -1.5f;
 
-					((Projectile*)(hit_objects[i]))->entities_excluded_from_collision.erase(((Projectile*)(hit_objects[i]))->entities_excluded_from_collision.begin(), ((Projectile*)(hit_objects[i]))->entities_excluded_from_collision.end());
+					((Projectile*)(hit_objects[i]))->GetEntitiesExcludedFromCollision().erase(((Projectile*)(hit_objects[i]))->GetEntitiesExcludedFromCollision().begin(), ((Projectile*)(hit_objects[i]))->GetEntitiesExcludedFromCollision().end());
 
-					((Projectile*)(hit_objects[i]))->ExcludeFromCollision(Singleton<World>::Get()->ENTITY_TYPE_PROJECTILE);
-					((Projectile*)(hit_objects[i]))->ExcludeFromCollision(Singleton<World>::Get()->ENTITY_TYPE_RIGID_BODY);
-					((Projectile*)(hit_objects[i]))->ExcludeFromCollision(Singleton<World>::Get()->ENTITY_TYPE_HIT_BOX);
+					((Projectile*)(hit_objects[i]))->ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_PROJECTILE);
+					((Projectile*)(hit_objects[i]))->ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_RIGID_BODY);
+					((Projectile*)(hit_objects[i]))->ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_HIT_BOX);
 					if (hit_sounds.size() > 0) {
 						hit_sounds[rand() % 3].play();
 					}
-				} else if (hit_objects[i]->entity_type == Singleton<World>::Get()->ENTITY_TYPE_STALAGTITE) {
+				} else if (hit_objects[i]->GetEntityType() == GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_STALAGTITE) {
 					hit_something = true;
-					Singleton<World>::Get()->HitStalagtite();
+					GameLibrary::Singleton<World>::Get()->HitStalagtite();
 					if (hit_sounds.size() > 0) {
 						hit_sounds[rand() % 3].play();
 					}
@@ -399,7 +386,7 @@ void PlayerCharacter::HandleButtonXPress() {
 			sword_whiffing_sound.play();
 		}
 
-		Singleton<World>::Get()->ScreenShake(hit_objects.size() > 0 ? 1.0f : 0.0f);
+		GameLibrary::Singleton<World>::Get()->ScreenShake(hit_objects.size() > 0 ? 1.0f : 0.0f);
 	}
 }
 
@@ -408,28 +395,27 @@ void PlayerCharacter::HandleButtonXRelease() {
 
 void PlayerCharacter::HandleButtonYPress() {
 	if (time_of_last_fire + fire_duration < current_time && hit_points > 0) {
-		if (!in_the_air) {
-			velocity.x = 0.0f;
-			velocity.y = 0.0f;
+		if (!IsInTheAir()) {
+			SetVelocity(0.0f, 0.0f);
 		}
 
 		for (int i = 0; i < (int)(projectiles.size()); i++) {
 			if (!projectiles[i]->is_active) {
 				float x_velocity = 10.0f;
 				sf::Vector2f kick_back = sf::Vector2f(1.6f, 0.0f);
-				sf::Vector2f starting_position = sf::Vector2f(x - projectiles[i]->width, y);
+				sf::Vector2f starting_position = sf::Vector2f(GetCurrentPosition().x - projectiles[i]->GetCurrentDimensions().x, GetCurrentPosition().y);
 
-				if (!facing_right) {
+				if (!IsFacingRight()) {
 					x_velocity *= -1.0f;
 				} else {
 					kick_back.x *= -1.0f;
-					starting_position.x += width + projectiles[i]->width;
+					starting_position.x += GetCurrentDimensions().x + projectiles[i]->GetCurrentDimensions().x;
 				}
 
 				TakeHit(0, 200, kick_back, false, true);
 				projectiles[i]->Fire(current_time, starting_position, sf::Vector2f(x_velocity, 0.0f));
-				projectiles[i]->ExcludeFromCollision(entity_type);
-				projectiles[i]->ExcludeFromCollision(HitBox->entity_type);
+				projectiles[i]->ExcludeFromCollision(GetEntityType());
+				projectiles[i]->ExcludeFromCollision(HitBox->GetEntityType());
 
 				time_of_last_fire = current_time;
 

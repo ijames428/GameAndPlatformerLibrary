@@ -1,9 +1,10 @@
 #ifndef PLATFORM_H
 #define PLATFORM_H
 
-#include "RigidBody.h"
+#include "..\GameLibrary\Singleton.h"
+#include "..\PlatformerLibrary\RigidBody.h"
 
-class Platform : public RigidBody {
+class Platform : public PlatformerLibrary::RigidBody {
 	public:
 		sf::RectangleShape rectangle_shape;
 		sf::RenderWindow *render_window;
