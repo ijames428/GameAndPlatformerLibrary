@@ -1,11 +1,9 @@
 using namespace std;
 #include <iostream>
 #include "Projectile.h"
-#include "Settings.h"
-#include "World.h"
 
-Projectile::Projectile(sf::RenderWindow *window, sf::Vector2f position, sf::Vector2f dimensions, bool subject_to_gravity) : RigidBody::RigidBody(position, dimensions, subject_to_gravity) {
-	SetEntityType(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_PROJECTILE);
+Projectile::Projectile(sf::RenderWindow *window, sf::Vector2f position, sf::Vector2f dimensions, bool subject_to_gravity) : PlatformerLibrary::RigidBody::RigidBody(position, dimensions, subject_to_gravity) {
+	SetEntityType(GameLibrary::ENTITY_TYPE_PROJECTILE);
 	speed = 2.0f;
 	current_time = 0;
 	fired_position = sf::Vector2f(0.0f, 0.0f);
@@ -17,12 +15,12 @@ Projectile::Projectile(sf::RenderWindow *window, sf::Vector2f position, sf::Vect
 	time_of_impact = 0;
 	duration_of_impact_animation = 50;
 
-	ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_PROJECTILE);
-	ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_RIGID_BODY);
-	ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_HIT_BOX);
-	ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_BOSS_TRIGGER);
-	ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_CHECKPOINT);
-	ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_WALL_DETECTOR);
+	ExcludeFromCollision(GameLibrary::ENTITY_TYPE_PROJECTILE);
+	ExcludeFromCollision(GameLibrary::ENTITY_TYPE_RIGID_BODY);
+	ExcludeFromCollision(GameLibrary::ENTITY_TYPE_HIT_BOX);
+	ExcludeFromCollision(GameLibrary::ENTITY_TYPE_BOSS_TRIGGER);
+	ExcludeFromCollision(GameLibrary::ENTITY_TYPE_CHECKPOINT);
+	ExcludeFromCollision(GameLibrary::ENTITY_TYPE_WALL_DETECTOR);
 
 	render_window = window;
 
@@ -36,7 +34,7 @@ Projectile::Projectile(sf::RenderWindow *window, sf::Vector2f position, sf::Vect
 		throw exception("Sound file not found");
 	} else {
 		hit_sound.setBuffer(buffer0);
-		hit_sound.setVolume(20 * (GameLibrary::Singleton<Settings>().Get()->effects_volume / 100.0f));
+		hit_sound.setVolume(20 * (GameLibrary::Singleton<GameLibrary::Settings>().Get()->effects_volume / 100.0f));
 	}
 
 	impact_texture.loadFromFile("Images/BulletImpact.png");
@@ -58,8 +56,8 @@ void Projectile::Draw(sf::Vector2f camera_position, sf::Int64 curr_time) {
 	}
 }
 
-void Projectile::UpdateProjectile(sf::Int64 curr_time) {
-	current_time = curr_time;
+void Projectile::Update(sf::Int64 curr_time, sf::Int64 delta_time) {
+	RigidBody::Update(curr_time, delta_time);
 
 	if (is_active) {
 		SetVelocity(fired_velocity);
@@ -72,13 +70,13 @@ void Projectile::UpdateProjectile(sf::Int64 curr_time) {
 		for (int i = 0; i < (int)hit_objects.size(); i++) {
 			bool deactivate = true;
 
-			if (hit_objects[i]->GetEntityType() == GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_DRONE ||
-				hit_objects[i]->GetEntityType() == GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_GRUNT ||
-				hit_objects[i]->GetEntityType() == GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_GUNNER) {
+			if (hit_objects[i]->GetEntityType() == GameLibrary::ENTITY_TYPE_DRONE ||
+				hit_objects[i]->GetEntityType() == GameLibrary::ENTITY_TYPE_GRUNT ||
+				hit_objects[i]->GetEntityType() == GameLibrary::ENTITY_TYPE_GUNNER) {
 				((Creature*)(hit_objects[i]))->TakeHit(1, 500, knock_back, false, true);
 			}
 
-			if (hit_objects[i]->GetEntityType() == GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_PLAYER_CHARACTER) {
+			if (hit_objects[i]->GetEntityType() == GameLibrary::ENTITY_TYPE_PLAYER_CHARACTER) {
 				if (((Creature*)(hit_objects[i]))->IsInvincible()) {
 					deactivate = false;
 				} else {
@@ -86,8 +84,8 @@ void Projectile::UpdateProjectile(sf::Int64 curr_time) {
 				}
 			}
 
-			if (hit_objects[i]->GetEntityType() == GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_STALAGTITE) {
-				GameLibrary::Singleton<World>::Get()->HitStalagtite();
+			if (hit_objects[i]->GetEntityType() == GameLibrary::ENTITY_TYPE_STALAGTITE) {
+				//GameLibrary::Singleton<World>::Get()->HitStalagtite();
 			}
 
 			if (deactivate) {
@@ -115,10 +113,10 @@ void Projectile::Fire(sf::Int64 curr_time, sf::Vector2f position, sf::Vector2f v
 
 	ClearEntitiesExcludedFromCollision();
 
-	ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_PROJECTILE);
-	ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_RIGID_BODY);
-	ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_HIT_BOX);
-	ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_BOSS_TRIGGER);
-	ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_CHECKPOINT);
-	ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_WALL_DETECTOR);
+	ExcludeFromCollision(GameLibrary::ENTITY_TYPE_PROJECTILE);
+	ExcludeFromCollision(GameLibrary::ENTITY_TYPE_RIGID_BODY);
+	ExcludeFromCollision(GameLibrary::ENTITY_TYPE_HIT_BOX);
+	ExcludeFromCollision(GameLibrary::ENTITY_TYPE_BOSS_TRIGGER);
+	ExcludeFromCollision(GameLibrary::ENTITY_TYPE_CHECKPOINT);
+	ExcludeFromCollision(GameLibrary::ENTITY_TYPE_WALL_DETECTOR);
 }

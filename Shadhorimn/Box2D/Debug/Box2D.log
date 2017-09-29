@@ -1,0 +1,95 @@
+﻿  stdafx.cpp
+  b2Rope.cpp
+  b2WheelJoint.cpp
+  b2WeldJoint.cpp
+  b2RopeJoint.cpp
+  b2RevoluteJoint.cpp
+  b2PulleyJoint.cpp
+  b2PrismaticJoint.cpp
+  b2MouseJoint.cpp
+  b2MotorJoint.cpp
+  b2Joint.cpp
+  b2GearJoint.cpp
+  b2FrictionJoint.cpp
+  b2DistanceJoint.cpp
+  b2PolygonContact.cpp
+  b2PolygonAndCircleContact.cpp
+  b2EdgeAndPolygonContact.cpp
+  b2EdgeAndCircleContact.cpp
+  b2ContactSolver.cpp
+  b2Contact.cpp
+  b2CircleContact.cpp
+  Generating Code...
+  Compiling...
+  b2ChainAndPolygonContact.cpp
+  b2ChainAndCircleContact.cpp
+  b2WorldCallbacks.cpp
+  b2World.cpp
+  b2Island.cpp
+  b2Fixture.cpp
+  b2ContactManager.cpp
+  b2Body.cpp
+  b2Timer.cpp
+  b2StackAllocator.cpp
+  b2Settings.cpp
+  b2Math.cpp
+  b2Draw.cpp
+  b2BlockAllocator.cpp
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\box2d\box2d\common\b2blockallocator.cpp(57): warning C4273: 'b2BlockAllocator::b2BlockAllocator': inconsistent dll linkage
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\box2d\box2d\common\b2blockallocator.h(44): note: see previous definition of '{ctor}'
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\box2d\box2d\common\b2blockallocator.cpp(89): warning C4273: 'b2BlockAllocator::~b2BlockAllocator': inconsistent dll linkage
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\box2d\box2d\common\b2blockallocator.h(45): note: see previous definition of '{dtor}'
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\box2d\box2d\common\b2blockallocator.cpp(99): warning C4273: 'b2BlockAllocator::Allocate': inconsistent dll linkage
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\box2d\box2d\common\b2blockallocator.h(48): note: see previous definition of 'Allocate'
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\box2d\box2d\common\b2blockallocator.cpp(157): warning C4273: 'b2BlockAllocator::Free': inconsistent dll linkage
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\box2d\box2d\common\b2blockallocator.h(51): note: see previous definition of 'Free'
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\box2d\box2d\common\b2blockallocator.cpp(206): warning C4273: 'b2BlockAllocator::Clear': inconsistent dll linkage
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\box2d\box2d\common\b2blockallocator.h(53): note: see previous definition of 'Clear'
+  b2PolygonShape.cpp
+  b2EdgeShape.cpp
+  b2CircleShape.cpp
+  b2ChainShape.cpp
+  b2TimeOfImpact.cpp
+  b2DynamicTree.cpp
+  Generating Code...
+  Compiling...
+  b2Distance.cpp
+  b2Collision.cpp
+  b2CollidePolygon.cpp
+  b2CollideEdge.cpp
+  b2CollideCircle.cpp
+  b2BroadPhase.cpp
+  Box2D.cpp
+  Generating Code...
+  dllmain.cpp
+     Creating library C:\Users\Ian\Documents\GitHub\GameAndPlatformerLibrary\Shadhorimn\Debug\Box2D.lib and object C:\Users\Ian\Documents\GitHub\GameAndPlatformerLibrary\Shadhorimn\Debug\Box2D.exp
+b2PolygonAndCircleContact.obj : warning LNK4049: locally defined symbol ?Allocate@b2BlockAllocator@@QAEPAXH@Z (public: void * __thiscall b2BlockAllocator::Allocate(int)) imported
+b2PolygonContact.obj : warning LNK4049: locally defined symbol ?Allocate@b2BlockAllocator@@QAEPAXH@Z (public: void * __thiscall b2BlockAllocator::Allocate(int)) imported
+b2Joint.obj : warning LNK4049: locally defined symbol ?Allocate@b2BlockAllocator@@QAEPAXH@Z (public: void * __thiscall b2BlockAllocator::Allocate(int)) imported
+b2ChainAndPolygonContact.obj : warning LNK4049: locally defined symbol ?Allocate@b2BlockAllocator@@QAEPAXH@Z (public: void * __thiscall b2BlockAllocator::Allocate(int)) imported
+b2CircleContact.obj : warning LNK4049: locally defined symbol ?Allocate@b2BlockAllocator@@QAEPAXH@Z (public: void * __thiscall b2BlockAllocator::Allocate(int)) imported
+b2EdgeAndCircleContact.obj : warning LNK4049: locally defined symbol ?Allocate@b2BlockAllocator@@QAEPAXH@Z (public: void * __thiscall b2BlockAllocator::Allocate(int)) imported
+b2EdgeAndPolygonContact.obj : warning LNK4049: locally defined symbol ?Allocate@b2BlockAllocator@@QAEPAXH@Z (public: void * __thiscall b2BlockAllocator::Allocate(int)) imported
+b2Body.obj : warning LNK4049: locally defined symbol ?Allocate@b2BlockAllocator@@QAEPAXH@Z (public: void * __thiscall b2BlockAllocator::Allocate(int)) imported
+b2Fixture.obj : warning LNK4049: locally defined symbol ?Allocate@b2BlockAllocator@@QAEPAXH@Z (public: void * __thiscall b2BlockAllocator::Allocate(int)) imported
+b2World.obj : warning LNK4049: locally defined symbol ?Allocate@b2BlockAllocator@@QAEPAXH@Z (public: void * __thiscall b2BlockAllocator::Allocate(int)) imported
+b2ChainAndCircleContact.obj : warning LNK4049: locally defined symbol ?Allocate@b2BlockAllocator@@QAEPAXH@Z (public: void * __thiscall b2BlockAllocator::Allocate(int)) imported
+b2ChainShape.obj : warning LNK4217: locally defined symbol ?Allocate@b2BlockAllocator@@QAEPAXH@Z (public: void * __thiscall b2BlockAllocator::Allocate(int)) imported in function "public: virtual class b2Shape * __thiscall b2ChainShape::Clone(class b2BlockAllocator *)const " (?Clone@b2ChainShape@@UBEPAVb2Shape@@PAVb2BlockAllocator@@@Z)
+b2CircleShape.obj : warning LNK4217: locally defined symbol ?Allocate@b2BlockAllocator@@QAEPAXH@Z (public: void * __thiscall b2BlockAllocator::Allocate(int)) imported in function "public: virtual bool __thiscall b2CircleShape::TestPoint(struct b2Transform const &,struct b2Vec2 const &)const " (?TestPoint@b2CircleShape@@UBE_NABUb2Transform@@ABUb2Vec2@@@Z)
+b2EdgeShape.obj : warning LNK4049: locally defined symbol ?Allocate@b2BlockAllocator@@QAEPAXH@Z (public: void * __thiscall b2BlockAllocator::Allocate(int)) imported
+b2PolygonShape.obj : warning LNK4049: locally defined symbol ?Allocate@b2BlockAllocator@@QAEPAXH@Z (public: void * __thiscall b2BlockAllocator::Allocate(int)) imported
+b2PolygonAndCircleContact.obj : warning LNK4049: locally defined symbol ?Free@b2BlockAllocator@@QAEXPAXH@Z (public: void __thiscall b2BlockAllocator::Free(void *,int)) imported
+b2PolygonContact.obj : warning LNK4049: locally defined symbol ?Free@b2BlockAllocator@@QAEXPAXH@Z (public: void __thiscall b2BlockAllocator::Free(void *,int)) imported
+b2Joint.obj : warning LNK4049: locally defined symbol ?Free@b2BlockAllocator@@QAEXPAXH@Z (public: void __thiscall b2BlockAllocator::Free(void *,int)) imported
+b2ChainAndPolygonContact.obj : warning LNK4049: locally defined symbol ?Free@b2BlockAllocator@@QAEXPAXH@Z (public: void __thiscall b2BlockAllocator::Free(void *,int)) imported
+b2CircleContact.obj : warning LNK4049: locally defined symbol ?Free@b2BlockAllocator@@QAEXPAXH@Z (public: void __thiscall b2BlockAllocator::Free(void *,int)) imported
+b2EdgeAndCircleContact.obj : warning LNK4049: locally defined symbol ?Free@b2BlockAllocator@@QAEXPAXH@Z (public: void __thiscall b2BlockAllocator::Free(void *,int)) imported
+b2EdgeAndPolygonContact.obj : warning LNK4049: locally defined symbol ?Free@b2BlockAllocator@@QAEXPAXH@Z (public: void __thiscall b2BlockAllocator::Free(void *,int)) imported
+b2Body.obj : warning LNK4217: locally defined symbol ?Free@b2BlockAllocator@@QAEXPAXH@Z (public: void __thiscall b2BlockAllocator::Free(void *,int)) imported in function "public: void __thiscall b2Body::DestroyFixture(class b2Fixture *)" (?DestroyFixture@b2Body@@QAEXPAVb2Fixture@@@Z)
+b2Fixture.obj : warning LNK4049: locally defined symbol ?Free@b2BlockAllocator@@QAEXPAXH@Z (public: void __thiscall b2BlockAllocator::Free(void *,int)) imported
+b2World.obj : warning LNK4049: locally defined symbol ?Free@b2BlockAllocator@@QAEXPAXH@Z (public: void __thiscall b2BlockAllocator::Free(void *,int)) imported
+b2ChainAndCircleContact.obj : warning LNK4049: locally defined symbol ?Free@b2BlockAllocator@@QAEXPAXH@Z (public: void __thiscall b2BlockAllocator::Free(void *,int)) imported
+b2World.obj : warning LNK4217: locally defined symbol ??0b2BlockAllocator@@QAE@XZ (public: __thiscall b2BlockAllocator::b2BlockAllocator(void)) imported in function "public: __thiscall b2World::b2World(struct b2Vec2 const &)" (??0b2World@@QAE@ABUb2Vec2@@@Z)
+b2World.obj : warning LNK4217: locally defined symbol ??1b2BlockAllocator@@QAE@XZ (public: __thiscall b2BlockAllocator::~b2BlockAllocator(void)) imported in function __unwindfunclet$??0b2World@@QAE@ABUb2Vec2@@@Z$0
+  Box2D.vcxproj -> C:\Users\Ian\Documents\GitHub\GameAndPlatformerLibrary\Shadhorimn\Debug\Box2D.dll
+  Box2D.vcxproj -> C:\Users\Ian\Documents\GitHub\GameAndPlatformerLibrary\Shadhorimn\Debug\Box2D.pdb (Full PDB)

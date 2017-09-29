@@ -1,0 +1,8 @@
+﻿  stdafx.cpp
+  dllmain.cpp
+  RigidBody.cpp
+RigidBody.obj : error LNK2001: unresolved external symbol "public: void __thiscall World::AddRigidBodyToGrid(class PlatformerLibrary::RigidBody *)" (?AddRigidBodyToGrid@World@@QAEXPAVRigidBody@PlatformerLibrary@@@Z)
+RigidBody.obj : error LNK2001: unresolved external symbol "public: void __thiscall World::MoveRigidBodyInGrid(class PlatformerLibrary::RigidBody *)" (?MoveRigidBodyInGrid@World@@QAEXPAVRigidBody@PlatformerLibrary@@@Z)
+RigidBody.obj : error LNK2001: unresolved external symbol "public: class std::vector<class PlatformerLibrary::RigidBody *,class std::allocator<class PlatformerLibrary::RigidBody *> > __thiscall World::GetObjectsInGridLocation(int,int)" (?GetObjectsInGridLocation@World@@QAE?AV?$vector@PAVRigidBody@PlatformerLibrary@@V?$allocator@PAVRigidBody@PlatformerLibrary@@@std@@@std@@HH@Z)
+RigidBody.obj : error LNK2001: unresolved external symbol "public: __thiscall World::World(void)" (??0World@@QAE@XZ)
+C:\Users\Ian\Documents\GitHub\GameAndPlatformerLibrary\Shadhorimn\Release\PlatformerLibrary.dll : fatal error LNK1120: 4 unresolved externals

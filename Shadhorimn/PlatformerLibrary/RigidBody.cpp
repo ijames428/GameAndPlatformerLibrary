@@ -2,14 +2,13 @@
 
 #include "stdafx.h"
 #include <iostream>
-#include "..\GameLibrary\Singleton.h"
-#include "..\Shadhorimn\World.h"
 #include "RigidBody.h"
+using namespace GameLibrary;
 
 namespace PlatformerLibrary
 {
 	RigidBody::RigidBody(sf::Vector2f position, sf::Vector2f dimensions, bool subject_to_gravity, bool subject_to_collision) {
-		entity_type = 10;// Singleton<World>::Get()->ENTITY_TYPE_RIGID_BODY;
+		entity_type = GameLibrary::ENTITY_TYPE_RIGID_BODY;
 
 		future_position.x = past_position.x = current_position.x = position.x;
 		future_position.y = past_position.y = current_position.y = position.y;
@@ -30,10 +29,10 @@ namespace PlatformerLibrary
 		velocity.y = 0.0f;
 
 		entities_excluded_from_collision = std::vector<int>();
-		//Singleton<World>::Get()->AddRigidBodyToGrid(this);
+		//GameLibrary::Singleton<GridHandler>::Get()->AddRigidBodyToGrid(this);
 	}
 
-	void RigidBody::Update(sf::Int64 delta_time) {
+	void RigidBody::Update(sf::Int64 curr_time, sf::Int64 delta_time) {
 		float mMovementSpeedTimefactor = delta_time / 10.0f;
 
 		if (mMovementSpeedTimefactor > 2.0f) {
@@ -94,7 +93,7 @@ namespace PlatformerLibrary
 		}
 
 		future_position.x = current_position.x + velocity.x;// * mMovementSpeedTimefactor;
-		if (entity_type == 8) {//Singleton<World>::Get()->ENTITY_TYPE_PLAYER_CHARACTER) {
+		if (entity_type == GameLibrary::ENTITY_TYPE_PLAYER_CHARACTER) {
 			future_position.y = current_position.y + velocity.y;// * mMovementSpeedTimefactor;
 		}
 		else {
@@ -103,7 +102,7 @@ namespace PlatformerLibrary
 
 		if (past_position.x != future_position.x || past_position.y != future_position.y || past_dimensions.x != future_dimensions.x || past_dimensions.y != future_dimensions.y)
 		{
-			//Singleton<World>::Get()->MoveRigidBodyInGrid(this);
+			//GameLibrary::Singleton<GridHandler>::Get()->MoveRigidBodyInGrid(this);
 
 			if (collision_enabled) {
 				ChangeFutureValuesAndVelocityBasedOnCollisions();
@@ -124,7 +123,7 @@ namespace PlatformerLibrary
 	void RigidBody::ChangeFutureValuesAndVelocityBasedOnCollisions() {
 		for (int w = grid_top_left.x; w <= grid_bot_right.x; w++) {
 			for (int h = grid_top_left.y; h <= grid_bot_right.y; h++) {
-				std::vector<RigidBody*> colliders = std::vector<RigidBody*>();// Singleton<World>::Get()->GetObjectsInGridLocation(w, h);
+				std::vector<RigidBody*> colliders = std::vector<RigidBody*>();// GameLibrary::Singleton<GridHandler>::Get()->GetObjectsInGridLocation(w, h);
 
 				if (colliders.size() > 1) {
 					for (int c = 0; c < (int)colliders.size(); c++) {
@@ -211,13 +210,13 @@ namespace PlatformerLibrary
 
 		for (int w = grid_top_left.x; w <= grid_bot_right.x; w++) {
 			for (int h = grid_top_left.y; h <= grid_bot_right.y; h++) {
-				std::vector<RigidBody*> colliders = std::vector<RigidBody*>();// Singleton<World>::Get()->GetObjectsInGridLocation(w, h);
+				std::vector<RigidBody*> colliders = std::vector<RigidBody*>();// GameLibrary::Singleton<GridHandler>::Get()->GetObjectsInGridLocation(w, h);
 
 				if (colliders.size() > 1) {
 					for (int c = 0; c < (int)colliders.size(); c++) {
 						if (colliders[c]->only_collide_with_platforms ||
-							(colliders[c]->entity_type == 9 /*Singleton<World>::Get()->ENTITY_TYPE_PROJECTILE*/ &&
-							(entity_type == 9/*Singleton<World>::Get()->ENTITY_TYPE_PROJECTILE*/ || entity_type == 3/*Singleton<World>::Get()->ENTITY_TYPE_DRONE*/))) {
+							(colliders[c]->entity_type == GameLibrary::ENTITY_TYPE_PROJECTILE &&
+							(entity_type == GameLibrary::ENTITY_TYPE_PROJECTILE || entity_type == GameLibrary::ENTITY_TYPE_DRONE))) {
 							continue;
 						}
 						if (id != colliders[c]->id) {

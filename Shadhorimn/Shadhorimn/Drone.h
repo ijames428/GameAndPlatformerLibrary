@@ -1,9 +1,14 @@
+#pragma once
+
 #ifndef DRONE_H
 #define DRONE_H
 
 using namespace std;
-#include "..\GameLibrary\Singleton.h"
-#include <SFML/Graphics.hpp>
+//#include "..\GameLibrary\Singleton.h"
+//#include "../GameLibrary/Settings.h"
+#include "..\GameLibrary\Settings.h"
+//#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "Creature.h"
 #include "PlayerCharacter.h"
 #include "Projectile.h"
@@ -21,9 +26,8 @@ private:
 	PlayerCharacter* target;
 public:
 	Drone(sf::RenderWindow *window, sf::Vector2f position = sf::Vector2f(0.0f, 0.0f), sf::Vector2f dimensions = sf::Vector2f(0.0f, 0.0f), bool subject_to_gravity = true);
-	void UpdateBehavior(sf::Int64 curr_time);
+	virtual void Update(sf::Int64 curr_time, sf::Int64 delta_time);
 	void Draw(sf::Vector2f camera_position);
-	void UpdateProjectiles(sf::Int64 curr_time, sf::Int64 frame_delta);
 	void DrawProjectiles(sf::Vector2f camera_position, sf::Int64 curr_time);
 };
 

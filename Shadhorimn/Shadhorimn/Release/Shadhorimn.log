@@ -1,23 +1,404 @@
 ﻿  AssetManager.cpp
   Camera.cpp
   Charger.cpp
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Charger.h(5): error C2871: 'GameLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Charger.h(6): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
   Checkpoint.cpp
+Checkpoint.cpp(2): error C2871: 'GameLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Checkpoint.h(5): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Checkpoint.h(9): error C2504: 'RigidBody': base class undefined
+Checkpoint.cpp(8): error C2436: '{ctor}': member function or nested class in constructor initializer list
+Checkpoint.cpp(9): error C2065: 'entity_type': undeclared identifier
+Checkpoint.cpp(10): error C2065: 'collision_enabled': undeclared identifier
+Checkpoint.cpp(29): error C3861: 'GetCollidersRigidBodyIsCollidingWith': identifier not found
   Creature.cpp
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Creature.h(5): error C2871: 'GameLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Creature.h(6): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Creature.h(10): error C2504: 'RigidBody': base class undefined
+Creature.cpp(6): error C2436: '{ctor}': member function or nested class in constructor initializer list
+Creature.cpp(7): error C2065: 'entity_type': undeclared identifier
+Creature.cpp(9): error C2065: 'facing_right_when_hit': undeclared identifier
+Creature.cpp(10): error C2065: 'lock_facing_direction_when_hit': undeclared identifier
+Creature.cpp(39): error C2065: 'x': undeclared identifier
+Creature.cpp(39): error C2065: 'y': undeclared identifier
+Creature.cpp(70): error C2065: 'entity_type': undeclared identifier
+Creature.cpp(81): error C2065: 'facing_right_when_hit': undeclared identifier
+Creature.cpp(81): error C2065: 'facing_right': undeclared identifier
+Creature.cpp(82): error C2065: 'lock_facing_direction_when_hit': undeclared identifier
+Creature.cpp(85): error C2065: 'velocity': undeclared identifier
+Creature.cpp(85): error C2228: left of '.x' must have class/struct/union
+  Creature.cpp(85): note: type is 'unknown-type'
+Creature.cpp(86): error C2065: 'velocity': undeclared identifier
+Creature.cpp(86): error C2228: left of '.y' must have class/struct/union
+  Creature.cpp(86): note: type is 'unknown-type'
+Creature.cpp(107): error C2065: 'entity_type': undeclared identifier
+Creature.cpp(108): error C2065: 'only_collide_with_platforms': undeclared identifier
+Creature.cpp(109): error C2065: 'entities_excluded_from_collision': undeclared identifier
+Creature.cpp(109): error C2228: left of '.push_back' must have class/struct/union
+  Creature.cpp(109): note: type is 'unknown-type'
+Creature.cpp(110): error C2065: 'entities_excluded_from_collision': undeclared identifier
+Creature.cpp(110): error C2228: left of '.push_back' must have class/struct/union
+  Creature.cpp(110): note: type is 'unknown-type'
+Creature.cpp(111): error C2065: 'entities_excluded_from_collision': undeclared identifier
+Creature.cpp(111): error C2228: left of '.push_back' must have class/struct/union
+  Creature.cpp(111): note: type is 'unknown-type'
+Creature.cpp(112): error C2065: 'entities_excluded_from_collision': undeclared identifier
+Creature.cpp(112): error C2228: left of '.push_back' must have class/struct/union
+  Creature.cpp(112): note: type is 'unknown-type'
+Creature.cpp(113): error C2065: 'entities_excluded_from_collision': undeclared identifier
+Creature.cpp(113): error C2228: left of '.push_back' must have class/struct/union
+  Creature.cpp(113): note: type is 'unknown-type'
+Creature.cpp(114): error C2065: 'entities_excluded_from_collision': undeclared identifier
+Creature.cpp(114): error C2228: left of '.push_back' must have class/struct/union
+  Creature.cpp(114): note: type is 'unknown-type'
+Creature.cpp(115): error C2065: 'entities_excluded_from_collision': undeclared identifier
+Creature.cpp(115): error C2228: left of '.push_back' must have class/struct/union
+  Creature.cpp(115): note: type is 'unknown-type'
+Creature.cpp(116): error C2065: 'entities_excluded_from_collision': undeclared identifier
+Creature.cpp(116): error C2228: left of '.push_back' must have class/struct/union
+  Creature.cpp(116): note: type is 'unknown-type'
   Drone.cpp
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Drone.h(5): error C2871: 'GameLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Creature.h(6): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Creature.h(10): error C2504: 'RigidBody': base class undefined
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(6): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Projectile.h(6): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Projectile.h(13): error C2504: 'RigidBody': base class undefined
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(48): error C2143: syntax error: missing ';' before '*'
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(48): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(48): error C2238: unexpected token(s) preceding ';'
+Drone.cpp(9): error C2065: 'entity_type': undeclared identifier
+Drone.cpp(45): error C2065: 'gravity_enabled': undeclared identifier
+Drone.cpp(48): error C2065: 'gravity_enabled': undeclared identifier
+Drone.cpp(50): error C2065: 'gravity_enabled': undeclared identifier
+Drone.cpp(52): error C2039: 'x': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Drone.cpp(52): error C2039: 'width': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Drone.cpp(52): error C2039: 'y': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Drone.cpp(52): error C2039: 'height': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Drone.cpp(52): error C2065: 'x': undeclared identifier
+Drone.cpp(52): error C2065: 'y': undeclared identifier
+Drone.cpp(52): error C2660: 'PlatformerLibrary::RigidBody::GetDistanceBetweenTwoPoints': function does not take 1 arguments
+Drone.cpp(55): error C2039: 'x': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Drone.cpp(55): error C2065: 'x': undeclared identifier
+Drone.cpp(56): error C2065: 'velocity': undeclared identifier
+Drone.cpp(56): error C2228: left of '.x' must have class/struct/union
+  Drone.cpp(56): note: type is 'unknown-type'
+Drone.cpp(58): error C2039: 'x': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Drone.cpp(58): error C2065: 'x': undeclared identifier
+Drone.cpp(59): error C2065: 'velocity': undeclared identifier
+Drone.cpp(59): error C2228: left of '.x' must have class/struct/union
+  Drone.cpp(59): note: type is 'unknown-type'
+Drone.cpp(62): error C2039: 'y': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Drone.cpp(62): error C2065: 'y': undeclared identifier
+Drone.cpp(63): error C2065: 'velocity': undeclared identifier
+Drone.cpp(63): error C2228: left of '.y' must have class/struct/union
+  Drone.cpp(63): note: type is 'unknown-type'
+Drone.cpp(65): error C2039: 'y': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Drone.cpp(65): error C2065: 'y': undeclared identifier
+Drone.cpp(66): error C2065: 'velocity': undeclared identifier
+Drone.cpp(66): error C2228: left of '.y' must have class/struct/union
+  Drone.cpp(66): note: type is 'unknown-type'
+Drone.cpp(72): error C2039: 'x': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Drone.cpp(72): error C2065: 'x': undeclared identifier
+Drone.cpp(73): error C2039: 'y': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Drone.cpp(73): error C2065: 'y': undeclared identifier
+Drone.cpp(75): error C2065: 'x': undeclared identifier
+Drone.cpp(75): error C2065: 'width': undeclared identifier
+Drone.cpp(75): error C2039: 'width': is not a member of 'Projectile'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Projectile.h(13): note: see declaration of 'Projectile'
+Drone.cpp(75): error C2065: 'y': undeclared identifier
+Drone.cpp(75): error C2065: 'height': undeclared identifier
+Drone.cpp(75): error C2039: 'height': is not a member of 'Projectile'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Projectile.h(13): note: see declaration of 'Projectile'
+Drone.cpp(94): error C2065: 'velocity': undeclared identifier
+Drone.cpp(94): error C2228: left of '.x' must have class/struct/union
+  Drone.cpp(94): note: type is 'unknown-type'
+Drone.cpp(95): error C2065: 'velocity': undeclared identifier
+Drone.cpp(95): error C2228: left of '.y' must have class/struct/union
+  Drone.cpp(95): note: type is 'unknown-type'
+Drone.cpp(104): error C2039: 'Update': is not a member of 'Projectile'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Projectile.h(13): note: see declaration of 'Projectile'
+Drone.cpp(117): error C2065: 'x': undeclared identifier
+Drone.cpp(117): error C2065: 'y': undeclared identifier
   EndOfTheGame.cpp
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\EndOfTheGame.h(5): error C2871: 'GameLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\EndOfTheGame.h(6): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\EndOfTheGame.h(11): error C2504: 'RigidBody': base class undefined
+EndOfTheGame.cpp(6): error C2436: '{ctor}': member function or nested class in constructor initializer list
+EndOfTheGame.cpp(7): error C2065: 'entity_type': undeclared identifier
+EndOfTheGame.cpp(8): error C2065: 'collision_enabled': undeclared identifier
+EndOfTheGame.cpp(20): error C2065: 'x': undeclared identifier
+EndOfTheGame.cpp(20): error C2065: 'y': undeclared identifier
+EndOfTheGame.cpp(25): error C3861: 'GetCollidersRigidBodyIsCollidingWith': identifier not found
   Grunt.cpp
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Grunt.h(5): error C2871: 'GameLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Grunt.h(6): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Creature.h(6): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Creature.h(10): error C2504: 'RigidBody': base class undefined
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(6): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Projectile.h(6): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Projectile.h(13): error C2504: 'RigidBody': base class undefined
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(48): error C2143: syntax error: missing ';' before '*'
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(48): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(48): error C2238: unexpected token(s) preceding ';'
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Grunt.h(24): error C2143: syntax error: missing ';' before '*'
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Grunt.h(24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Grunt.h(24): error C2238: unexpected token(s) preceding ';'
+Grunt.cpp(10): error C2065: 'entity_type': undeclared identifier
+Grunt.cpp(23): error C2065: 'HitBox': undeclared identifier
+Grunt.cpp(24): error C2065: 'HitBox': undeclared identifier
+Grunt.cpp(24): error C2227: left of '->entity_type' must point to class/struct/union/generic type
+  Grunt.cpp(24): note: type is 'unknown-type'
+Grunt.cpp(77): error C2065: 'lock_facing_direction_when_hit': undeclared identifier
+Grunt.cpp(81): error C2039: 'x': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Grunt.cpp(81): error C2039: 'width': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Grunt.cpp(81): error C2039: 'y': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Grunt.cpp(81): error C2039: 'height': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Grunt.cpp(81): error C2065: 'x': undeclared identifier
+Grunt.cpp(81): error C2065: 'y': undeclared identifier
+Grunt.cpp(81): error C2660: 'PlatformerLibrary::RigidBody::GetDistanceBetweenTwoPoints': function does not take 1 arguments
+Grunt.cpp(85): error C2039: 'x': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Grunt.cpp(85): error C2065: 'x': undeclared identifier
+Grunt.cpp(86): error C2065: 'velocity': undeclared identifier
+Grunt.cpp(86): error C2228: left of '.x' must have class/struct/union
+  Grunt.cpp(86): note: type is 'unknown-type'
+Grunt.cpp(88): error C2039: 'x': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Grunt.cpp(88): error C2065: 'x': undeclared identifier
+Grunt.cpp(89): error C2065: 'velocity': undeclared identifier
+Grunt.cpp(89): error C2228: left of '.x' must have class/struct/union
+  Grunt.cpp(89): note: type is 'unknown-type'
+Grunt.cpp(94): error C2039: 'x': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Grunt.cpp(94): error C2039: 'width': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Grunt.cpp(94): error C2039: 'y': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Grunt.cpp(94): error C2039: 'height': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Grunt.cpp(94): error C2065: 'x': undeclared identifier
+Grunt.cpp(94): error C2065: 'width': undeclared identifier
+Grunt.cpp(94): error C2065: 'y': undeclared identifier
+Grunt.cpp(94): error C2065: 'height': undeclared identifier
+Grunt.cpp(99): error C2065: 'facing_right': undeclared identifier
+Grunt.cpp(100): error C2065: 'HitBox': undeclared identifier
+Grunt.cpp(100): error C2227: left of '->x' must point to class/struct/union/generic type
+  Grunt.cpp(100): note: type is 'unknown-type'
+Grunt.cpp(100): error C2065: 'x': undeclared identifier
+Grunt.cpp(100): error C2065: 'width': undeclared identifier
+Grunt.cpp(104): error C2065: 'HitBox': undeclared identifier
+Grunt.cpp(104): error C2227: left of '->x' must point to class/struct/union/generic type
+  Grunt.cpp(104): note: type is 'unknown-type'
+Grunt.cpp(104): error C2065: 'x': undeclared identifier
+Grunt.cpp(104): error C2227: left of '->width' must point to class/struct/union/generic type
+  Grunt.cpp(104): note: type is 'unknown-type'
+Grunt.cpp(107): error C2065: 'HitBox': undeclared identifier
+Grunt.cpp(107): error C2227: left of '->y' must point to class/struct/union/generic type
+  Grunt.cpp(107): note: type is 'unknown-type'
+Grunt.cpp(107): error C2065: 'y': undeclared identifier
+Grunt.cpp(108): error C2065: 'HitBox': undeclared identifier
+Grunt.cpp(108): error C2227: left of '->Update' must point to class/struct/union/generic type
+  Grunt.cpp(108): note: type is 'unknown-type'
+Grunt.cpp(109): error C2065: 'HitBox': undeclared identifier
+Grunt.cpp(109): error C2227: left of '->GetCollidersRigidBodyIsCollidingWith' must point to class/struct/union/generic type
+  Grunt.cpp(109): note: type is 'unknown-type'
+Grunt.cpp(130): error C2065: 'in_the_air': undeclared identifier
+Grunt.cpp(131): error C2065: 'velocity': undeclared identifier
+Grunt.cpp(131): error C2228: left of '.x' must have class/struct/union
+  Grunt.cpp(131): note: type is 'unknown-type'
+Grunt.cpp(132): error C2065: 'velocity': undeclared identifier
+Grunt.cpp(132): error C2228: left of '.y' must have class/struct/union
+  Grunt.cpp(132): note: type is 'unknown-type'
+Grunt.cpp(135): error C2065: 'lock_facing_direction_when_hit': undeclared identifier
+Grunt.cpp(142): error C2065: 'facing_right': undeclared identifier
+Grunt.cpp(154): error C2065: 'facing_right': undeclared identifier
+Grunt.cpp(154): warning C4805: '!=': unsafe mix of type 'unknown-type' and type 'bool' in operation
+Grunt.cpp(159): error C2065: 'facing_right': undeclared identifier
+Grunt.cpp(160): error C2065: 'x': undeclared identifier
+Grunt.cpp(160): error C2065: 'y': undeclared identifier
+Grunt.cpp(161): error C2065: 'x': undeclared identifier
+Grunt.cpp(161): error C2065: 'y': undeclared identifier
+Grunt.cpp(164): error C2065: 'x': undeclared identifier
+Grunt.cpp(164): error C2065: 'width': undeclared identifier
+Grunt.cpp(164): error C2065: 'y': undeclared identifier
+Grunt.cpp(165): error C2065: 'x': undeclared identifier
+Grunt.cpp(165): error C2065: 'width': undeclared identifier
+Grunt.cpp(165): error C2065: 'y': undeclared identifier
+Grunt.cpp(168): error C2065: 'in_the_air': undeclared identifier
+Grunt.cpp(175): error C2065: 'facing_right': undeclared identifier
+Grunt.cpp(176): error C2065: 'x': undeclared identifier
+Grunt.cpp(176): error C2065: 'y': undeclared identifier
+Grunt.cpp(179): error C2065: 'x': undeclared identifier
+Grunt.cpp(179): error C2065: 'width': undeclared identifier
+Grunt.cpp(179): error C2065: 'y': undeclared identifier
+Grunt.cpp(183): error C2065: 'facing_right': undeclared identifier
+Grunt.cpp(184): error C2065: 'x': undeclared identifier
+Grunt.cpp(184): error C2065: 'y': undeclared identifier
+Grunt.cpp(186): error C2065: 'x': undeclared identifier
+Grunt.cpp(186): error C2065: 'width': undeclared identifier
+Grunt.cpp(186): error C2065: 'y': undeclared identifier
+Grunt.cpp(189): error C2065: 'velocity': undeclared identifier
+Grunt.cpp(189): error C2228: left of '.x' must have class/struct/union
+  Grunt.cpp(189): note: type is 'unknown-type'
+Grunt.cpp(190): error C2065: 'facing_right': undeclared identifier
+Grunt.cpp(191): error C2065: 'x': undeclared identifier
+Grunt.cpp(191): error C2065: 'y': undeclared identifier
+Grunt.cpp(193): error C2065: 'x': undeclared identifier
+Grunt.cpp(193): error C2065: 'width': undeclared identifier
+Grunt.cpp(193): error C2065: 'y': undeclared identifier
+Grunt.cpp(197): error C2065: 'x': undeclared identifier
+Grunt.cpp(197): error C2065: 'width': undeclared identifier
+Grunt.cpp(197): error C2065: 'y': undeclared identifier
+Grunt.cpp(197): error C2065: 'height': undeclared identifier
   Gunner.cpp
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Gunner.h(5): error C2871: 'GameLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Creature.h(6): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Creature.h(10): error C2504: 'RigidBody': base class undefined
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(6): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Projectile.h(6): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Projectile.h(13): error C2504: 'RigidBody': base class undefined
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(48): error C2143: syntax error: missing ';' before '*'
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(48): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(48): error C2238: unexpected token(s) preceding ';'
+Gunner.cpp(10): error C2065: 'entity_type': undeclared identifier
+Gunner.cpp(69): error C2065: 'lock_facing_direction_when_hit': undeclared identifier
+Gunner.cpp(70): error C2039: 'x': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Gunner.cpp(70): error C2039: 'width': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Gunner.cpp(70): error C2039: 'y': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Gunner.cpp(70): error C2039: 'height': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Gunner.cpp(70): error C2065: 'x': undeclared identifier
+Gunner.cpp(70): error C2065: 'y': undeclared identifier
+Gunner.cpp(70): error C2660: 'PlatformerLibrary::RigidBody::GetDistanceBetweenTwoPoints': function does not take 1 arguments
+Gunner.cpp(73): error C2039: 'x': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Gunner.cpp(73): error C2065: 'x': undeclared identifier
+Gunner.cpp(74): error C2065: 'velocity': undeclared identifier
+Gunner.cpp(74): error C2228: left of '.x' must have class/struct/union
+  Gunner.cpp(74): note: type is 'unknown-type'
+Gunner.cpp(75): error C2039: 'x': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Gunner.cpp(75): error C2065: 'x': undeclared identifier
+Gunner.cpp(76): error C2065: 'velocity': undeclared identifier
+Gunner.cpp(76): error C2228: left of '.x' must have class/struct/union
+  Gunner.cpp(76): note: type is 'unknown-type'
+Gunner.cpp(95): error C2065: 'x': undeclared identifier
+Gunner.cpp(95): error C2039: 'width': is not a member of 'Projectile'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Projectile.h(13): note: see declaration of 'Projectile'
+Gunner.cpp(95): error C2065: 'y': undeclared identifier
+Gunner.cpp(97): error C2039: 'x': is not a member of 'PlayerCharacter'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(14): note: see declaration of 'PlayerCharacter'
+Gunner.cpp(97): error C2065: 'x': undeclared identifier
+Gunner.cpp(98): error C2065: 'width': undeclared identifier
+Gunner.cpp(98): error C2039: 'width': is not a member of 'Projectile'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Projectile.h(13): note: see declaration of 'Projectile'
+Gunner.cpp(104): error C2065: 'entity_type': undeclared identifier
+Gunner.cpp(111): error C2065: 'in_the_air': undeclared identifier
+Gunner.cpp(112): error C2065: 'velocity': undeclared identifier
+Gunner.cpp(112): error C2228: left of '.x' must have class/struct/union
+  Gunner.cpp(112): note: type is 'unknown-type'
+Gunner.cpp(113): error C2065: 'velocity': undeclared identifier
+Gunner.cpp(113): error C2228: left of '.y' must have class/struct/union
+  Gunner.cpp(113): note: type is 'unknown-type'
+Gunner.cpp(116): error C2065: 'lock_facing_direction_when_hit': undeclared identifier
+Gunner.cpp(125): error C2039: 'Update': is not a member of 'Projectile'
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Projectile.h(13): note: see declaration of 'Projectile'
+Gunner.cpp(138): error C2065: 'facing_right': undeclared identifier
+Gunner.cpp(150): error C2065: 'facing_right': undeclared identifier
+Gunner.cpp(150): warning C4805: '!=': unsafe mix of type 'unknown-type' and type 'bool' in operation
+Gunner.cpp(155): error C2065: 'facing_right': undeclared identifier
+Gunner.cpp(156): error C2065: 'x': undeclared identifier
+Gunner.cpp(156): error C2065: 'y': undeclared identifier
+Gunner.cpp(157): error C2065: 'x': undeclared identifier
+Gunner.cpp(157): error C2065: 'y': undeclared identifier
+Gunner.cpp(160): error C2065: 'x': undeclared identifier
+Gunner.cpp(160): error C2065: 'width': undeclared identifier
+Gunner.cpp(160): error C2065: 'y': undeclared identifier
+Gunner.cpp(161): error C2065: 'x': undeclared identifier
+Gunner.cpp(161): error C2065: 'width': undeclared identifier
+Gunner.cpp(161): error C2065: 'y': undeclared identifier
+Gunner.cpp(164): error C2065: 'in_the_air': undeclared identifier
+Gunner.cpp(171): error C2065: 'facing_right': undeclared identifier
+Gunner.cpp(172): error C2065: 'x': undeclared identifier
+Gunner.cpp(172): error C2065: 'y': undeclared identifier
+Gunner.cpp(175): error C2065: 'x': undeclared identifier
+Gunner.cpp(175): error C2065: 'width': undeclared identifier
+Gunner.cpp(175): error C2065: 'y': undeclared identifier
+Gunner.cpp(179): error C2065: 'facing_right': undeclared identifier
+Gunner.cpp(180): error C2065: 'x': undeclared identifier
+Gunner.cpp(180): error C2065: 'y': undeclared identifier
+Gunner.cpp(182): error C2065: 'x': undeclared identifier
+Gunner.cpp(182): error C2065: 'width': undeclared identifier
+Gunner.cpp(182): error C2065: 'y': undeclared identifier
+Gunner.cpp(185): error C2065: 'velocity': undeclared identifier
+Gunner.cpp(185): error C2228: left of '.x' must have class/struct/union
+  Gunner.cpp(185): note: type is 'unknown-type'
+Gunner.cpp(186): error C2065: 'facing_right': undeclared identifier
+Gunner.cpp(187): error C2065: 'x': undeclared identifier
+Gunner.cpp(187): error C2065: 'y': undeclared identifier
+Gunner.cpp(190): error C2065: 'x': undeclared identifier
+Gunner.cpp(190): error C2065: 'width': undeclared identifier
+Gunner.cpp(190): error C2065: 'y': undeclared identifier
+Gunner.cpp(194): error C2065: 'x': undeclared identifier
+Gunner.cpp(194): error C2065: 'width': undeclared identifier
+Gunner.cpp(194): error C2065: 'y': undeclared identifier
+Gunner.cpp(194): error C2065: 'height': undeclared identifier
   InputHandler.cpp
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(5): error C2871: 'GameLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(6): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\SpriteAnimation.h(5): error C2871: 'GameLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Projectile.h(5): error C2871: 'GameLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Projectile.h(6): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
   main.cpp
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Platform.h(4): error C2871: 'GameLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Platform.h(5): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Platform.h(9): error C2504: 'RigidBody': base class undefined
   Platform.cpp
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Platform.h(4): error C2871: 'GameLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Platform.h(5): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Platform.h(9): error C2504: 'RigidBody': base class undefined
+Platform.cpp(6): error C2436: '{ctor}': member function or nested class in constructor initializer list
+Platform.cpp(7): error C2065: 'entity_type': undeclared identifier
+Platform.cpp(14): error C2065: 'entities_excluded_from_collision': undeclared identifier
+Platform.cpp(14): error C2228: left of '.push_back' must have class/struct/union
+  Platform.cpp(14): note: type is 'unknown-type'
+Platform.cpp(14): error C2065: 'entity_type': undeclared identifier
+Platform.cpp(20): error C2065: 'x': undeclared identifier
+Platform.cpp(20): error C2065: 'y': undeclared identifier
   PlayerCharacter.cpp
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(5): error C2871: 'GameLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\PlayerCharacter.h(6): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\SpriteAnimation.h(5): error C2871: 'GameLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Projectile.h(5): error C2871: 'GameLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Projectile.h(6): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
   Projectile.cpp
-  RigidBody.cpp
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Projectile.h(5): error C2871: 'GameLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\Projectile.h(6): error C2871: 'PlatformerLibrary': a namespace with this name does not exist
   Settings.cpp
   SpriteAnimation.cpp
+SpriteAnimation.cpp(2): error C2871: 'GameLibrary': a namespace with this name does not exist
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\SpriteAnimation.h(5): error C2871: 'GameLibrary': a namespace with this name does not exist
+SpriteAnimation.cpp(23): error C2065: 'Singleton': undeclared identifier
+SpriteAnimation.cpp(23): error C2275: 'AssetManager': illegal use of this type as an expression
+  c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\AssetManager.h(7): note: see declaration of 'AssetManager'
+SpriteAnimation.cpp(23): error C2059: syntax error: ')'
   World.cpp
-  Generating code
-  All 1363 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
-  Finished generating code
-  Shadhorimn.vcxproj -> C:\Users\Ian\Documents\GitHub\shadhorimn\Shadhorimn\Release\Shadhorimn.exe
-  Shadhorimn.vcxproj -> C:\Users\Ian\Documents\GitHub\shadhorimn\Shadhorimn\Release\Shadhorimn.pdb (Full PDB)
+c:\users\ian\documents\github\gameandplatformerlibrary\shadhorimn\shadhorimn\World.h(2): error C2871: 'GameLibrary': a namespace with this name does not exist

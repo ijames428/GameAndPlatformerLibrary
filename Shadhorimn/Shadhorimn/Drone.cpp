@@ -1,12 +1,10 @@
 using namespace std;
 #include <iostream>
 #include "Drone.h"
-#include "World.h"
-#include "Settings.h"
 #define PI 3.14159265
 
 Drone::Drone(sf::RenderWindow *window, sf::Vector2f position, sf::Vector2f dimensions, bool subject_to_gravity) : Creature::Creature(window, position, dimensions, subject_to_gravity) {
-	SetEntityType(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_DRONE);
+	SetEntityType(GameLibrary::ENTITY_TYPE_DRONE);
 	hit_points = 2;
 
 	jump_power = 1.0f;
@@ -21,25 +19,31 @@ Drone::Drone(sf::RenderWindow *window, sf::Vector2f position, sf::Vector2f dimen
 
 	rectangle_shape = shape;
 
-	target = GameLibrary::Singleton<World>::Get()->main_character;
+	//target = GameLibrary::Singleton<World>::Get()->main_character;
 
 	time_between_firing = 750;
 	time_of_last_firing = 0;
 	for (int i = 0; i < 10; i++) {
 		projectiles.push_back(new Projectile(window, position, sf::Vector2f(20.0f, 20.0f), false));
-		projectiles[i]->ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_DRONE);
+		projectiles[i]->ExcludeFromCollision(GameLibrary::ENTITY_TYPE_DRONE);
 	}
 
 	if (!firing_projectile_buffer.loadFromFile("Sound/drone_firing.wav")) {
 		throw exception("Sound file not found");
 	} else {
 		firing_projectile_sound.setBuffer(firing_projectile_buffer);
-		firing_projectile_sound.setVolume(GameLibrary::Singleton<Settings>().Get()->effects_volume);
+		firing_projectile_sound.setVolume(GameLibrary::Singleton<GameLibrary::Settings>().Get()->effects_volume);
 	}
 }
 
-void Drone::UpdateBehavior(sf::Int64 curr_time) {
-	current_time = curr_time;
+void Drone::Update(sf::Int64 curr_time, sf::Int64 delta_time) {
+	Creature::Update(curr_time, delta_time);
+
+	for (int i = 0; i < (int)(projectiles.size()); i++) {
+		if (projectiles[i]->is_active) {
+			projectiles[i]->Update(curr_time, delta_time);
+		}
+	}
 
 	if (hit_points <= 0) {
 		EnableGravity();
@@ -81,7 +85,7 @@ void Drone::UpdateBehavior(sf::Int64 curr_time) {
 							}
 
 							projectiles[i]->Fire(current_time, starting_position, vel * 4.0f);
-							projectiles[i]->ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_DRONE);
+							projectiles[i]->ExcludeFromCollision(GameLibrary::ENTITY_TYPE_DRONE);
 
 							time_of_last_firing = current_time;
 							firing_projectile_sound.play();
@@ -93,15 +97,6 @@ void Drone::UpdateBehavior(sf::Int64 curr_time) {
 			} else {
 				SetVelocity(0.0f, 0.0f);
 			}
-		}
-	}
-}
-
-void Drone::UpdateProjectiles(sf::Int64 curr_time, sf::Int64 frame_delta) {
-	for (int i = 0; i < (int)(projectiles.size()); i++) {
-		if (projectiles[i]->is_active) {
-			((RigidBody*)projectiles[i])->Update(frame_delta);
-			projectiles[i]->UpdateProjectile(curr_time);
 		}
 	}
 }

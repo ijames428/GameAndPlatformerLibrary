@@ -155,11 +155,16 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Checkpoint.h" />
+    <ClInclude Include="EndOfTheGame.h" />
+    <ClInclude Include="Platform.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="GridHandler.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Checkpoint.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -174,6 +179,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="EndOfTheGame.cpp" />
+    <ClCompile Include="Platform.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -181,8 +188,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="GridHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Box2D\Box2D.vcxproj">
+      <Project>{4ed49ac5-450c-4b51-a2c2-18a225738a25}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\GameLibrary\GameLibrary.vcxproj">
       <Project>{98987638-0694-4861-b410-86941d1f0459}</Project>
     </ProjectReference>

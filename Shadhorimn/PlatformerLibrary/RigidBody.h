@@ -1,6 +1,7 @@
-using namespace std;
+#pragma once
 
-#include <SFML/Graphics.hpp>
+#ifndef RIGIDBODY_H
+#define RIGIDBODY_H
 
 // RigidBody.h - Contains declaration of Function class  
 
@@ -8,14 +9,19 @@ using namespace std;
 #define PLATFORMERLIBRARY_API __declspec(dllexport)   
 #else  
 #define PLATFORMERLIBRARY_API __declspec(dllimport)   
-#endif  
+#endif 
 
-#ifndef RIGIDBODY_H
-#define RIGIDBODY_H
+using namespace std;
+
+#include <SFML/Graphics.hpp>
+#include "..\GameLibrary\Singleton.h"
+#include "..\GameLibrary\Constants.h"
 
 namespace PlatformerLibrary
 {
 	class RigidBody {
+	protected:
+		sf::Int64 current_time;
 	private:
 		int entity_type;
 		sf::Vector2f velocity;
@@ -76,7 +82,7 @@ namespace PlatformerLibrary
 		PLATFORMERLIBRARY_API void UnlockFacingDirection();
 		PLATFORMERLIBRARY_API bool IsFacingDirectionLocked();
 		PLATFORMERLIBRARY_API RigidBody(sf::Vector2f position, sf::Vector2f dimensions, bool subject_to_gravity = false, bool subject_to_collision = true);
-		PLATFORMERLIBRARY_API void Update(sf::Int64 delta_time);
+		PLATFORMERLIBRARY_API virtual void Update(sf::Int64 curr_time, sf::Int64 delta_time);
 		PLATFORMERLIBRARY_API void ChangeFutureValuesAndVelocityBasedOnCollisions();
 		PLATFORMERLIBRARY_API std::vector<RigidBody*> GetCollidersRigidBodyIsCollidingWith();
 		PLATFORMERLIBRARY_API static float GetDistanceBetweenTwoPoints(sf::Vector2f point_a, sf::Vector2f point_b);

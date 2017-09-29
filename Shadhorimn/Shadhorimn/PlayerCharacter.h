@@ -1,19 +1,25 @@
+#pragma once
+
 #ifndef PLAYERCHARACTER_H
 #define PLAYERCHARACTER_H
 
 using namespace std;
 #include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
-#include "SpriteAnimation.h"
-#include "Projectile.h"
+//#include <SFML/Graphics.hpp>
+//#include "..\PlatformerLibrary\RigidBody.h"
+#include "..\GameLibrary\SpriteAnimation.h"
+//#include "..\GameLibrary\Settings.h"
+//#include "..\GameLibrary\AssetManager.h"
+//#include "World.h"
 #include "Creature.h"
-#include "..\GameLibrary\Singleton.h"
+#include "Projectile.h"
+//#include "..\GameLibrary\Singleton.h"
 
 class PlayerCharacter : public Creature {
 	private:
 		bool hit_terminal_velocity;
 		sf::Color player_color;
-		SpriteAnimation* running_animation;
+		GameLibrary::SpriteAnimation* running_animation;
 		sf::Texture idle_texture;
 		sf::Sprite idle_sprite;
 		float idle_sprite_scale;
@@ -43,7 +49,7 @@ class PlayerCharacter : public Creature {
 		sf::SoundBuffer bufferLand;
 		sf::Sound soundJump;
 		sf::SoundBuffer bufferJump;
-		RigidBody* HitBox;
+		PlatformerLibrary::RigidBody* HitBox;
 		bool was_in_air;
 		sf::Int64 time_of_last_attack;
 		sf::Int64 attack_cooldown;
@@ -74,9 +80,7 @@ class PlayerCharacter : public Creature {
 		void HandleButtonStartPress();
 		void HandleButtonStartRelease();
 		void Draw(sf::Vector2f camera_position);
-		void UpdatePlayerCharacter(sf::Int64 curr_time);
-		void UpdateProjectiles(sf::Int64 curr_time, sf::Int64 frame_delta);
-		void DrawProjectiles(sf::Vector2f camera_position, sf::Int64 curr_time);
+		virtual void Update(sf::Int64 curr_time, sf::Int64 delta_time);
 };
 
 #endif

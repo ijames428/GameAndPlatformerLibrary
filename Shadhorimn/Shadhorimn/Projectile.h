@@ -1,9 +1,13 @@
+#pragma once
+
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 
 using namespace std;
-#include "..\GameLibrary\Singleton.h"
+//#include "..\GameLibrary\Singleton.h"
 #include "..\PlatformerLibrary\RigidBody.h"
+#include "..\GameLibrary\Settings.h"
+//#include "World.h"
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include "Creature.h"
@@ -31,7 +35,7 @@ public:
 	sf::CircleShape circle_shape;
 	sf::RenderWindow *render_window;
 	void Draw(sf::Vector2f camera_position, sf::Int64 curr_time);
-	void UpdateProjectile(sf::Int64 curr_time);
+	virtual void Update(sf::Int64 curr_time, sf::Int64 delta_time);
 	void Fire(sf::Int64 curr_time, sf::Vector2f position = sf::Vector2f(0.0f, 0.0f), sf::Vector2f velocity = sf::Vector2f(0.0f, 0.0f));
 };
 

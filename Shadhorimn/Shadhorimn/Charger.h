@@ -1,13 +1,18 @@
+#pragma once
+
 #ifndef CHARGER_H
 #define CHARGER_H
 
 using namespace std;
-#include "..\GameLibrary\Singleton.h"
-#include "..\PlatformerLibrary\RigidBody.h"
-#include <SFML/Graphics.hpp>
-#include "Creature.h"
+//#include "..\GameLibrary\Singleton.h"
+//#include "..\PlatformerLibrary\RigidBody.h"
+//#include "..\GameLibrary\Settings.h"
+//#include "World.h"
+//#include <SFML/Graphics.hpp>
+//#include <SFML/Audio.hpp>
+//#include "Creature.h"
 #include "PlayerCharacter.h"
-#include "Projectile.h"
+//#include "Projectile.h"
 
 class Charger : public Creature {
 private:
@@ -28,15 +33,14 @@ private:
 	sf::Int64 time_of_last_attack;
 	sf::Int64 duration_of_attack;
 	sf::Int64 time_between_attacks;
-	RigidBody* HitBox;
-	RigidBody* WallDetector;
+	PlatformerLibrary::RigidBody* HitBox;
+	PlatformerLibrary::RigidBody* WallDetector;
 	sf::Vector2f charge_velocity;
 	int starting_hit_points;
 public:
 	Charger(sf::RenderWindow *window, sf::Vector2f position = sf::Vector2f(0.0f, 0.0f), sf::Vector2f dimensions = sf::Vector2f(0.0f, 0.0f), bool subject_to_gravity = true);
-	void UpdateBehavior(sf::Int64 curr_time);
+	virtual void Update(sf::Int64 curr_time, sf::Int64 delta_time);
 	void Draw(sf::Vector2f camera_position);
-	void UpdateProjectiles(sf::Int64 curr_time, sf::Int64 frame_delta);
 	void DrawProjectiles(sf::Vector2f camera_position, sf::Int64 curr_time);
 	void StartCharge();
 	bool IsInSecondStage();

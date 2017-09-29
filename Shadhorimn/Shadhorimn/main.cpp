@@ -1,14 +1,15 @@
 //using namespace std;
-#include <iostream>
-#include <SFML/Graphics.hpp>
-#include "Platform.h"
-#include "..\GameLibrary\Singleton.h"
+//#include <iostream>
+//#include <SFML/Graphics.hpp>
+//#include <SFML/Audio.hpp>
+//#include "..\PlatformerLibrary\Platform.h"
+//#include "..\GameLibrary\Singleton.h"
 #include "World.h"
-#include "InputHandler.h"
-#include "PlayerCharacter.h"
-#include "Drone.h"
-#include "Camera.h"
-#include "Settings.h"
+#include "..\GameLibrary\InputHandler.h"
+//#include "PlayerCharacter.h"
+//#include "Drone.h"
+//#include "..\GameLibrary\Camera.h"
+//#include "..\GameLibrary\Settings.h"
 
 int IncrementTransparency(int transparency);
 void SetPreviousButtonValues();
@@ -43,9 +44,9 @@ float window_width;
 float window_height;
 
 sf::RenderWindow* window;
-Camera* camera;
+GameLibrary::Camera* camera;
 
-InputHandler* input_handler;
+GameLibrary::InputHandler* input_handler;
 PlayerCharacter* main_character;
 
 sf::Music background_music;
@@ -99,12 +100,12 @@ int main()
 	float background_music_volume = 100.0f;
 	float combat_music_volume = 0.0f;
 
-	GameLibrary::Singleton<Settings>::Get()->effects_volume = 10.0f;
-	GameLibrary::Singleton<Settings>::Get()->music_volume = 50.0f;
+	GameLibrary::Singleton<GameLibrary::Settings>::Get()->effects_volume = 10.0f;
+	GameLibrary::Singleton<GameLibrary::Settings>::Get()->music_volume = 50.0f;
 
 	if (!background_music.openFromFile("Sound/background_music0.ogg"))
 		return -1;
-	combat_music.setVolume((float)background_music_volume * (GameLibrary::Singleton<Settings>::Get()->music_volume / 100.0f));
+	combat_music.setVolume((float)background_music_volume * (GameLibrary::Singleton<GameLibrary::Settings>::Get()->music_volume / 100.0f));
 #ifdef _DEBUG
 #else
 	background_music.play();
@@ -113,18 +114,18 @@ int main()
 
 	if (!combat_music.openFromFile("Sound/combat_music.ogg"))
 		return -1;
-	combat_music.setVolume((float)combat_music_volume * (GameLibrary::Singleton<Settings>::Get()->music_volume / 100.0f));
+	combat_music.setVolume((float)combat_music_volume * (GameLibrary::Singleton<GameLibrary::Settings>::Get()->music_volume / 100.0f));
 #ifdef _DEBUG
 #else
 	combat_music.play();
 #endif
 	combat_music.setLoop(true);
 
-	camera = new Camera(sf::Vector2f(viewport_width / 2, viewport_height / 2), sf::Vector2f(viewport_width, viewport_height));
+	camera = new GameLibrary::Camera(sf::Vector2f(viewport_width / 2, viewport_height / 2), sf::Vector2f(viewport_width, viewport_height));
 	window = new sf::RenderWindow(sf::VideoMode::VideoMode((int)window_width, (int)window_height), "Shadhorimn");// , sf::Style::Fullscreen);
 	//sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Shadhorimn");// , sf::Style::Fullscreen);
 	main_character = new PlayerCharacter(window, sf::Vector2f(0.0f, 0.0f), sf::Vector2f(40.0f, 80.0f), true);
-	input_handler = new InputHandler(main_character);
+	input_handler = new GameLibrary::InputHandler();
 
 	if (!logo_screen_texture.loadFromFile("Images/LogoScreen.png"))
 		return -1;
@@ -191,16 +192,16 @@ int main()
 						combat_music_volume++;
 						background_music_volume--;
 
-						combat_music.setVolume((float)combat_music_volume * (GameLibrary::Singleton<Settings>::Get()->music_volume / 100.0f));
-						background_music.setVolume((float)background_music_volume * (GameLibrary::Singleton<Settings>::Get()->music_volume / 100.0f));
+						combat_music.setVolume((float)combat_music_volume * (GameLibrary::Singleton<GameLibrary::Settings>::Get()->music_volume / 100.0f));
+						background_music.setVolume((float)background_music_volume * (GameLibrary::Singleton<GameLibrary::Settings>::Get()->music_volume / 100.0f));
 					}
 				} else {
 					if (background_music_volume < 100) {
 						background_music_volume++;
 						combat_music_volume--;
 
-						background_music.setVolume((float)background_music_volume * (GameLibrary::Singleton<Settings>::Get()->music_volume / 100.0f));
-						combat_music.setVolume((float)combat_music_volume * (GameLibrary::Singleton<Settings>::Get()->music_volume / 100.0f));
+						background_music.setVolume((float)background_music_volume * (GameLibrary::Singleton<GameLibrary::Settings>::Get()->music_volume / 100.0f));
+						combat_music.setVolume((float)combat_music_volume * (GameLibrary::Singleton<GameLibrary::Settings>::Get()->music_volume / 100.0f));
 					}
 				}
 				

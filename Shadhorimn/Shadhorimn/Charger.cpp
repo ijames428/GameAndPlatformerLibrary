@@ -1,12 +1,10 @@
 using namespace std;
 #include <iostream>
 #include "Charger.h"
-#include "World.h"
-#include "Settings.h"
 #define PI 3.14159265
 
 Charger::Charger(sf::RenderWindow *window, sf::Vector2f position, sf::Vector2f dimensions, bool subject_to_gravity) : Creature::Creature(window, position, dimensions, subject_to_gravity) {
-	SetEntityType(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_CHARGER);
+	SetEntityType(GameLibrary::ENTITY_TYPE_CHARGER);
 	starting_hit_points = 20;
 	hit_points = starting_hit_points;
 
@@ -20,16 +18,16 @@ Charger::Charger(sf::RenderWindow *window, sf::Vector2f position, sf::Vector2f d
 	time_between_attacks = 1500;
 
 	HitBox = new RigidBody(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(40.0f, 10.0f), false, false);
-	HitBox->SetEntityType(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_HIT_BOX);
+	HitBox->SetEntityType(GameLibrary::ENTITY_TYPE_HIT_BOX);
 
 	WallDetector = new RigidBody(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(5.0f, dimensions.y - 5.0f), false, false);
 	WallDetector->DisableCollision();
-	WallDetector->SetEntityType(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_WALL_DETECTOR);
+	WallDetector->SetEntityType(GameLibrary::ENTITY_TYPE_WALL_DETECTOR);
 	WallDetector->ExcludeFromCollision(GetEntityType());
 	WallDetector->ExcludeFromCollision(HitBox->GetEntityType());
-	WallDetector->ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_PROJECTILE);
-	WallDetector->ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_END_OF_THE_GAME);
-	WallDetector->ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_BOSS_TRIGGER);
+	WallDetector->ExcludeFromCollision(GameLibrary::ENTITY_TYPE_PROJECTILE);
+	WallDetector->ExcludeFromCollision(GameLibrary::ENTITY_TYPE_END_OF_THE_GAME);
+	WallDetector->ExcludeFromCollision(GameLibrary::ENTITY_TYPE_BOSS_TRIGGER);
 
 	movement_speed = 1.0f;
 	charge_speed = 7.0f;
@@ -43,22 +41,22 @@ Charger::Charger(sf::RenderWindow *window, sf::Vector2f position, sf::Vector2f d
 
 	rectangle_shape = shape;
 
-	target = GameLibrary::Singleton<World>::Get()->main_character;
+	//target = GameLibrary::Singleton<World>::Get()->main_character;
 
 	for (int i = 0; i < 5; i++) {
 		projectiles.push_back(new Projectile(window, position, sf::Vector2f(20.0f, 20.0f), false));
 		projectiles[i]->ExcludeFromCollision(GetEntityType());
 		projectiles[i]->ExcludeFromCollision(HitBox->GetEntityType());
-		projectiles[i]->ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_PROJECTILE);
-		projectiles[i]->ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_END_OF_THE_GAME);
-		projectiles[i]->ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_BOSS_TRIGGER);
+		projectiles[i]->ExcludeFromCollision(GameLibrary::ENTITY_TYPE_PROJECTILE);
+		projectiles[i]->ExcludeFromCollision(GameLibrary::ENTITY_TYPE_END_OF_THE_GAME);
+		projectiles[i]->ExcludeFromCollision(GameLibrary::ENTITY_TYPE_BOSS_TRIGGER);
 	}
 
 	if (!hitting_wall_buffer.loadFromFile("Sound/charger_hitting_wall.wav")) {
 		throw exception("Sound file not found");
 	} else {
 		hitting_wall_sound.setBuffer(hitting_wall_buffer);
-		hitting_wall_sound.setVolume(50 * (GameLibrary::Singleton<Settings>().Get()->effects_volume / 100.0f));
+		hitting_wall_sound.setVolume(50 * (GameLibrary::Singleton<GameLibrary::Settings>().Get()->effects_volume / 100.0f));
 		hitting_wall_sound.setLoop(false);
 	}
 
@@ -66,13 +64,19 @@ Charger::Charger(sf::RenderWindow *window, sf::Vector2f position, sf::Vector2f d
 		throw exception("Sound file not found");
 	} else {
 		hitting_player_sound.setBuffer(hitting_player_buffer);
-		hitting_player_sound.setVolume(50 * (GameLibrary::Singleton<Settings>().Get()->effects_volume / 100.0f));
+		hitting_player_sound.setVolume(50 * (GameLibrary::Singleton<GameLibrary::Settings>().Get()->effects_volume / 100.0f));
 		hitting_player_sound.setLoop(false);
 	}
 }
 
-void Charger::UpdateBehavior(sf::Int64 curr_time) {
-	current_time = curr_time;
+void Charger::Update(sf::Int64 curr_time, sf::Int64 delta_time) {
+	Creature::Update(curr_time, delta_time);
+
+	for (int i = 0; i < (int)(projectiles.size()); i++) {
+		if (projectiles[i]->is_active) {
+			projectiles[i]->Update(curr_time, delta_time);
+		}
+	}
 
 	if (hit_points > 0) {
 		if (hit_stun_start_time + hit_stun_duration <= current_time) {
@@ -91,8 +95,8 @@ void Charger::UpdateBehavior(sf::Int64 curr_time) {
 				WallDetector->SetCurrentPosition(GetCurrentPosition().x - WallDetector->GetCurrentDimensions().x + GetCurrentDimensions().x, GetCurrentPosition().y);
 			}
 
-			HitBox->Update(0);
-			WallDetector->Update(0);
+			HitBox->Update(0, 0);
+			WallDetector->Update(0, 0);
 
 			if (is_charging) {
 				SetVelocity(charge_velocity);
@@ -103,16 +107,16 @@ void Charger::UpdateBehavior(sf::Int64 curr_time) {
 				std::vector<RigidBody*> hit_objects = WallDetector->GetCollidersRigidBodyIsCollidingWith();
 
 				for (int i = 0; i < (int)hit_objects.size(); i++) {
-					if (hit_objects[i]->GetEntityType() == GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_PLATFORM) {
+					if (hit_objects[i]->GetEntityType() == GameLibrary::ENTITY_TYPE_PLATFORM) {
 						knock_back.x = -knock_back.x;
 						TakeHit(0, 3000, knock_back);
 						if (IsInSecondStage()) {
 							FireSecondStageProjectiles();
 						}
-						GameLibrary::Singleton<World>::Get()->ScreenShake(2.0f);
+						//GameLibrary::Singleton<World>::Get()->ScreenShake(2.0f);
 						hitting_wall_sound.play();
 						is_charging = false;
-					} else if (hit_objects[i]->GetEntityType() == GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_PLAYER_CHARACTER) {
+					} else if (hit_objects[i]->GetEntityType() == GameLibrary::ENTITY_TYPE_PLAYER_CHARACTER) {
 						if (!((Creature*)(hit_objects[i]))->IsInvincible()) {
 							((Creature*)(hit_objects[i]))->TakeHit(2, 1000, knock_back);
 							knock_back.x = -knock_back.x;
@@ -120,7 +124,7 @@ void Charger::UpdateBehavior(sf::Int64 curr_time) {
 							if (IsInSecondStage()) {
 								FireSecondStageProjectiles();
 							}
-							GameLibrary::Singleton<World>::Get()->ScreenShake(2.0f);
+							//GameLibrary::Singleton<World>::Get()->ScreenShake(2.0f);
 							hitting_player_sound.play();
 						}
 
@@ -172,15 +176,6 @@ void Charger::StartCharge() {
 	} else if (target->GetCurrentPosition().x < GetCurrentPosition().x) {
 		charge_velocity.x = -charge_speed_by_stage;
 		WallDetector->SetCurrentPosition(GetCurrentPosition().x - WallDetector->GetCurrentDimensions().x, WallDetector->GetCurrentPosition().y);
-	}
-}
-
-void Charger::UpdateProjectiles(sf::Int64 curr_time, sf::Int64 frame_delta) {
-	for (int i = 0; i < (int)(projectiles.size()); i++) {
-		if (projectiles[i]->is_active) {
-			projectiles[i]->Update(frame_delta);
-			projectiles[i]->UpdateProjectile(curr_time);
-		}
 	}
 }
 

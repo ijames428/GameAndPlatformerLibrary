@@ -1,12 +1,20 @@
+#pragma once
+
 #ifndef GRUNT_H
 #define GRUNT_H
 
 using namespace std;
-#include "..\GameLibrary\Singleton.h"
-#include <SFML/Graphics.hpp>
+//#include "..\PlatformerLibrary\RigidBody.h"
+//#include "..\GameLibrary\Singleton.h"
+//#include "..\GameLibrary\SpriteAnimation.h"
+//#include "..\GameLibrary\Settings.h"
+//#include "..\GameLibrary\AssetManager.h"
+//#include "World.h"
+//#include <SFML/Graphics.hpp>
+//#include <SFML/Audio.hpp>
 #include "Creature.h"
 #include "PlayerCharacter.h"
-#include "Projectile.h"
+//#include "Projectile.h"
 
 class Grunt : public Creature {
 private:
@@ -21,7 +29,7 @@ private:
 	PlayerCharacter* target;
 	RigidBody* HitBox;
 	sf::Color grunt_color;
-	SpriteAnimation* running_animation;
+	GameLibrary::SpriteAnimation* running_animation;
 	sf::Texture idle_texture;
 	sf::Sprite idle_sprite;
 	float idle_sprite_scale;
@@ -37,7 +45,7 @@ private:
 	sf::Sprite dead_on_ground_sprite;
 public:
 	Grunt(sf::RenderWindow *window, sf::Vector2f position = sf::Vector2f(0.0f, 0.0f), sf::Vector2f dimensions = sf::Vector2f(0.0f, 0.0f), bool subject_to_gravity = true);
-	void UpdateBehavior(sf::Int64 curr_time);
+	virtual void Update(sf::Int64 curr_time, sf::Int64 delta_time);
 	void Draw(sf::Vector2f camera_position);
 };
 

@@ -1,0 +1,9 @@
+﻿  stdafx.cpp
+  dllmain.cpp
+  GameLibrary.cpp
+     Creating library C:\Users\Ian\Documents\GitHub\GameAndPlatformerLibrary\Shadhorimn\Release\GameLibrary.lib and object C:\Users\Ian\Documents\GitHub\GameAndPlatformerLibrary\Shadhorimn\Release\GameLibrary.exp
+  Generating code
+  All 4 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  GameLibrary.vcxproj -> C:\Users\Ian\Documents\GitHub\GameAndPlatformerLibrary\Shadhorimn\Release\GameLibrary.dll
+  GameLibrary.vcxproj -> C:\Users\Ian\Documents\GitHub\GameAndPlatformerLibrary\Shadhorimn\Release\GameLibrary.pdb (Full PDB)

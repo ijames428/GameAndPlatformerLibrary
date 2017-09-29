@@ -1,13 +1,10 @@
 using namespace std;
 #include <iostream>
 #include "Gunner.h"
-#include "World.h"
-#include "AssetManager.h"
-#include "Settings.h"
 #define PI 3.14159265
 
 Gunner::Gunner(sf::RenderWindow *window, sf::Vector2f position, sf::Vector2f dimensions, bool subject_to_gravity) : Creature::Creature(window, position, dimensions, subject_to_gravity) {
-	SetEntityType(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_GUNNER);
+	SetEntityType(GameLibrary::ENTITY_TYPE_GUNNER);
 	hit_points = 2;
 
 	jump_power = 1.0f;
@@ -19,49 +16,57 @@ Gunner::Gunner(sf::RenderWindow *window, sf::Vector2f position, sf::Vector2f dim
 
 	idle_sprite_scale = 0.12f;
 	//idle_texture.loadFromFile("Images/Kaltar_Idle.png");
-	idle_texture = *GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Idle.png");
+	idle_texture = *GameLibrary::Singleton<GameLibrary::AssetManager>().Get()->GetTexture("Images/Kaltar_Idle.png");
 	idle_sprite = sf::Sprite(idle_texture);
 	//idle_sprite = sf::Sprite(GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Idle.png"));
 	idle_sprite.setScale(idle_sprite_scale, idle_sprite_scale);
 	idle_sprite.setColor(gunner_color);
 
-	running_animation = new SpriteAnimation(render_window, "Images/Kaltar_Running.png", 582, 522, 91, 9, 11, 0.12f, gunner_color);
+	running_animation = new GameLibrary::SpriteAnimation(render_window, "Images/Kaltar_Running.png", 582, 522, 91, 9, 11, 0.12f, gunner_color);
 
-	fire_texture = *GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Fire.png");
+	fire_texture = *GameLibrary::Singleton<GameLibrary::AssetManager>().Get()->GetTexture("Images/Kaltar_Fire.png");
 	//fire_texture.loadFromFile("Images/Kaltar_Fire.png");
 	fire_sprite = sf::Sprite(fire_texture);
 	//fire_sprite = sf::Sprite(GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Fire.png"));
 	fire_sprite.setScale(idle_sprite_scale, idle_sprite_scale);
 	fire_sprite.setColor(gunner_color);
 
-	taking_damage_texture = *GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/kaltar_taking_damage.png");
+	taking_damage_texture = *GameLibrary::Singleton<GameLibrary::AssetManager>().Get()->GetTexture("Images/kaltar_taking_damage.png");
 	taking_damage_sprite = sf::Sprite(taking_damage_texture);
 	taking_damage_sprite.setScale(idle_sprite_scale, idle_sprite_scale);
 	taking_damage_sprite.setColor(gunner_color);
 
-	dead_on_ground_texture = *GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/kaltar_dead_on_ground.png");
+	dead_on_ground_texture = *GameLibrary::Singleton<GameLibrary::AssetManager>().Get()->GetTexture("Images/kaltar_dead_on_ground.png");
 	dead_on_ground_sprite = sf::Sprite(dead_on_ground_texture);
 	dead_on_ground_sprite.setScale(idle_sprite_scale, idle_sprite_scale);
 	dead_on_ground_sprite.setColor(gunner_color);
 
-	target = GameLibrary::Singleton<World>::Get()->main_character;
+	//target = GameLibrary::Singleton<World>::Get()->main_character;
 
 	time_between_firing = 1500;
 	time_of_last_firing = 0;
 	for (int i = 0; i < 15; i++) {
 		projectiles.push_back(new Projectile(window, position, sf::Vector2f(20.0f, 20.0f), false));
-		projectiles[i]->ExcludeFromCollision(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_GUNNER);
+		projectiles[i]->ExcludeFromCollision(GameLibrary::ENTITY_TYPE_GUNNER);
 	}
 
 	if (!firing_projectile_buffer.loadFromFile("Sound/gunner_firing.wav")) {
 		throw exception("Sound file not found");
 	} else {
 		firing_projectile_sound.setBuffer(firing_projectile_buffer);
-		firing_projectile_sound.setVolume(GameLibrary::Singleton<Settings>().Get()->effects_volume);
+		firing_projectile_sound.setVolume(GameLibrary::Singleton<GameLibrary::Settings>().Get()->effects_volume);
 	}
 }
 
-void Gunner::UpdateBehavior(sf::Int64 curr_time) {
+void Gunner::Update(sf::Int64 curr_time, sf::Int64 delta_time) {
+	Creature::Update(curr_time, delta_time);
+
+	for (int i = 0; i < (int)(projectiles.size()); i++) {
+		if (projectiles[i]->is_active) {
+			projectiles[i]->Update(curr_time, delta_time);
+		}
+	}
+
 	current_time = curr_time;
 
 	if (hit_points > 0) {
@@ -114,15 +119,6 @@ void Gunner::UpdateBehavior(sf::Int64 curr_time) {
 		} else {
 			LockFacingDirection();
 			rectangle_shape.setFillColor(sf::Color::Red);
-		}
-	}
-}
-
-void Gunner::UpdateProjectiles(sf::Int64 curr_time, sf::Int64 frame_delta) {
-	for (int i = 0; i < (int)(projectiles.size()); i++) {
-		if (projectiles[i]->is_active) {
-			projectiles[i]->Update(frame_delta);
-			projectiles[i]->UpdateProjectile(curr_time);
 		}
 	}
 }

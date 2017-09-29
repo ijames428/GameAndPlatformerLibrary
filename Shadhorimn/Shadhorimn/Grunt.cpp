@@ -1,13 +1,10 @@
 using namespace std;
 #include <iostream>
 #include "Grunt.h"
-#include "World.h"
-#include "AssetManager.h"
-#include "Settings.h"
 #define PI 3.14159265
 
 Grunt::Grunt(sf::RenderWindow *window, sf::Vector2f position, sf::Vector2f dimensions, bool subject_to_gravity) : Creature::Creature(window, position, dimensions, subject_to_gravity) {
-	SetEntityType(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_GRUNT);
+	SetEntityType(GameLibrary::ENTITY_TYPE_GRUNT);
 	hit_points = 3;
 	jump_power = 1.0f;
 	aggro_radius = 500.0f;
@@ -21,7 +18,7 @@ Grunt::Grunt(sf::RenderWindow *window, sf::Vector2f position, sf::Vector2f dimen
 	attack_animation_duration = 100;
 
 	HitBox = new RigidBody(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(40.0f, 10.0f), false, false);
-	HitBox->SetEntityType(GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_HIT_BOX);
+	HitBox->SetEntityType(GameLibrary::ENTITY_TYPE_HIT_BOX);
 
 	grunt_color = sf::Color::Magenta;
 
@@ -29,47 +26,49 @@ Grunt::Grunt(sf::RenderWindow *window, sf::Vector2f position, sf::Vector2f dimen
 	//idle_texture.loadFromFile("Images/Kaltar_Idle.png");
 	//idle_texture = GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Idle.png");
 	//idle_sprite = sf::Sprite(idle_texture);
-	idle_sprite = sf::Sprite(*GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Idle.png"));
+	idle_sprite = sf::Sprite(*GameLibrary::Singleton<GameLibrary::AssetManager>().Get()->GetTexture("Images/Kaltar_Idle.png"));
 	idle_sprite.setScale(idle_sprite_scale, idle_sprite_scale);
 	idle_sprite.setColor(grunt_color);
 
-	running_animation = new SpriteAnimation(render_window, "Images/Kaltar_Running.png", 582, 522, 91, 9, 11, 0.12f, grunt_color);
+	running_animation = new GameLibrary::SpriteAnimation(render_window, "Images/Kaltar_Running.png", 582, 522, 91, 9, 11, 0.12f, grunt_color);
 
 	//attack_texture.loadFromFile("Images/Kaltar_Attack.png");
 	//attack_texture = GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Attack.png");
 	//attack_sprite = sf::Sprite(attack_texture);
-	attack_sprite = sf::Sprite(*GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/Kaltar_Attack.png"));
+	attack_sprite = sf::Sprite(*GameLibrary::Singleton<GameLibrary::AssetManager>().Get()->GetTexture("Images/Kaltar_Attack.png"));
 	attack_sprite.setScale(idle_sprite_scale, idle_sprite_scale);
 	attack_sprite.setColor(grunt_color);
 
-	taking_damage_texture = *GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/kaltar_taking_damage.png");
+	taking_damage_texture = *GameLibrary::Singleton<GameLibrary::AssetManager>().Get()->GetTexture("Images/kaltar_taking_damage.png");
 	taking_damage_sprite = sf::Sprite(taking_damage_texture);
 	taking_damage_sprite.setScale(idle_sprite_scale, idle_sprite_scale);
 	taking_damage_sprite.setColor(grunt_color);
 
-	dead_on_ground_texture = *GameLibrary::Singleton<AssetManager>().Get()->GetTexture("Images/kaltar_dead_on_ground.png");
+	dead_on_ground_texture = *GameLibrary::Singleton<GameLibrary::AssetManager>().Get()->GetTexture("Images/kaltar_dead_on_ground.png");
 	dead_on_ground_sprite = sf::Sprite(dead_on_ground_texture);
 	dead_on_ground_sprite.setScale(idle_sprite_scale, idle_sprite_scale);
 	dead_on_ground_sprite.setColor(grunt_color);
 
-	target = GameLibrary::Singleton<World>::Get()->main_character;
+	//target = GameLibrary::Singleton<World>::Get()->main_character;
 
 	if (!sword_whiffing_buffer.loadFromFile("Sound/sword_whiffing.wav")) {
 		throw exception("Sound file not found");
 	} else {
 		sword_whiffing_sound.setBuffer(sword_whiffing_buffer);
-		sword_whiffing_sound.setVolume(GameLibrary::Singleton<Settings>().Get()->effects_volume);
+		sword_whiffing_sound.setVolume(GameLibrary::Singleton<GameLibrary::Settings>().Get()->effects_volume);
 	}
 
 	if (!sword_hitting_enemy_buffer.loadFromFile("Sound/sword_hitting.wav")) {
 		throw exception("Sound file not found");
 	} else {
 		sword_hitting_enemy_sound.setBuffer(sword_hitting_enemy_buffer);
-		sword_hitting_enemy_sound.setVolume(GameLibrary::Singleton<Settings>().Get()->effects_volume);
+		sword_hitting_enemy_sound.setVolume(GameLibrary::Singleton<GameLibrary::Settings>().Get()->effects_volume);
 	}
 }
 
-void Grunt::UpdateBehavior(sf::Int64 curr_time) {
+void Grunt::Update(sf::Int64 curr_time, sf::Int64 delta_time) {
+	Creature::Update(curr_time, delta_time);
+
 	current_time = curr_time;
 
 	if (hit_points > 0) {
@@ -103,13 +102,13 @@ void Grunt::UpdateBehavior(sf::Int64 curr_time) {
 						HitBox->SetCurrentPosition(GetCurrentPosition().x - HitBox->GetCurrentDimensions().x, HitBox->GetCurrentPosition().y);
 					}
 
-					HitBox->Update(0);
+					HitBox->Update(0, 0);
 					std::vector<RigidBody*> hit_objects = HitBox->GetCollidersRigidBodyIsCollidingWith();
 
 					bool hit_player = false;
 
 					for (int i = 0; i < (int)hit_objects.size(); i++) {
-						if (hit_objects[i]->GetEntityType() == GameLibrary::Singleton<World>::Get()->ENTITY_TYPE_PLAYER_CHARACTER) {
+						if (hit_objects[i]->GetEntityType() == GameLibrary::ENTITY_TYPE_PLAYER_CHARACTER) {
 							if (!((Creature*)(hit_objects[i]))->IsInvincible()) {
 								((Creature*)(hit_objects[i]))->TakeHit(1, 1000, knock_back, true, true);
 								hit_player = true;

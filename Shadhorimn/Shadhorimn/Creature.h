@@ -1,14 +1,18 @@
+#pragma once
+
 #ifndef CREATURE_H
 #define CREATURE_H
 
 using namespace std;
-#include "..\GameLibrary\Singleton.h"
+//using namespace GameLibrary;
+//#include "..\GameLibrary\Singleton.h"
 #include "..\PlatformerLibrary\RigidBody.h"
-#include <SFML/Graphics.hpp>
+//#include "World.h"
+//#include <SFML/Graphics.hpp>
+//#include "Projectile.h"
 
 class Creature : public PlatformerLibrary::RigidBody {
 	protected:
-		sf::Int64 current_time;
 		sf::Int64 hit_stun_start_time;
 		sf::Int64 hit_stun_duration;
 		float speed;
@@ -34,6 +38,7 @@ class Creature : public PlatformerLibrary::RigidBody {
 		bool IsInRollInvincibility();
 		bool IsInvincible();
 		bool IsDodging();
+		virtual void Update(sf::Int64 curr_time, sf::Int64 delta_time);
 };
 
 #endif
